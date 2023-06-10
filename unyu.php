@@ -1,7 +1,5 @@
 <?php
-$private_key = 'hex....';
-$public_key = 'hex....';
-
+require_once './config.php';
 // mention判定
 $isMention = false;
 $json = file_get_contents('php://input');
@@ -10,7 +8,7 @@ if ($json) {
 	if (array_key_exists('tags', $data) && count($data['tags']) > 0) {
 		foreach ($data['tags'] as $tag) {
 			if ($tag[0] == 'p') {
-				if ($tag[1] == $public_key) {
+				if ($tag[1] == PUBLIC_KEY) {
 					$isMention = true;
 					break;
 				}
@@ -30,15 +28,15 @@ if ($isMention) {//mentionに対してはmentionで返す
 	$tags = [['p', $data['pubkey']], ['e', $data['id']]];
 }
 $content = 'えんいー';//とりあえず固定
-$array = [0, $public_key, $created_at, $kind, $tags, $content];
+$array = [0, PUBLIC_KEY, $created_at, $kind, $tags, $content];
 $hash_content = json_encode($array, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 $id = hash('sha256', $hash_content);
 $sign = new SchnorrSignature();
-$signature = $sign->sign($private_key, $id);
+$signature = $sign->sign(PRIVATE_KEY, $id);
 $sig = $signature['signature'];
 $event = array(
 	'id' => $id,
-	'pubkey' => $public_key,
+	'pubkey' => PUBLIC_KEY,
 	'created_at' => $created_at,
 	'kind' => $kind,
 	'tags' => $tags,
