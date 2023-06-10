@@ -1,0 +1,5 @@
+{
+    "require": {
+        "public-square/phpecc": "^0.1.2"
+    }
+}
