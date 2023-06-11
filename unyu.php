@@ -5,14 +5,14 @@ $isMention = false;
 $json = file_get_contents('php://input');
 if ($json) {
 	$data = json_decode($json, true);
-	if (array_key_exists('tags', $data) && count($data['tags']) > 0) {
-		foreach ($data['tags'] as $tag) {
-			if ($tag[0] == 'p') {
-				if ($tag[1] == PUBLIC_KEY) {
-					$isMention = true;
-					break;
-				}
-			}
+	if ($data['pubkey'] == PUBLIC_KEY) {//自分自身の投稿には反応しない
+		header('Content-Type: application/json; charset=utf-8');
+		exit('{}');
+	}
+	foreach ($data['tags'] as $tag) {
+		if ($tag[0] == 'p' && $tag[1] == PUBLIC_KEY) {
+			$isMention = true;
+			break;
 		}
 	}
 }
