@@ -20,14 +20,19 @@ if ($json) {
 //投稿作成
 require_once 'vendor/autoload.php';
 use Mdanter\Ecc\Crypto\Signature\SchnorrSignature;
+require_once './talk.php';
 
 $created_at = time() + 1;//1秒遅らせるのはマナーです
 $kind = 1;
 $tags = [];
-if ($isMention) {//mentionに対してはmentionで返す
+$content = 'えんいー';//mention以外はこれ固定
+if ($isMention) {
+	//mentionに対してはmentionで返す
 	$tags = [['p', $data['pubkey']], ['e', $data['id']]];
+	//返答を作成
+	$content = talk($data['content']);
 }
-$content = 'えんいー';//とりあえず固定
+
 $array = [0, PUBLIC_KEY, $created_at, $kind, $tags, $content];
 $hash_content = json_encode($array, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 $id = hash('sha256', $hash_content);
