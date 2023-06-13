@@ -16,6 +16,9 @@ function talk($content) {
 	else if (preg_match('/里々|satori/i', $content)) {
 		$res = 'https://soliton.sub.jp/satori/';
 	}
+	else if (preg_match('/ソース|コード|GitHub|リポジトリ|中身/i', $content)) {
+		$res = 'https://github.com/nikolat/nostr-webhook-php-sample';
+	}
 	else if (preg_match('/時刻|時報/', $content)) {
 		$date = new DateTime('now');
 		$week = array('日', '月', '火', '水', '木', '金', '土');
