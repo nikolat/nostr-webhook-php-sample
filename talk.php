@@ -25,7 +25,7 @@ function talk($content) {
 		$weekday = $date->format('w');
 		$res = $date->format('Y年m月d日 H時i分s秒 ').$week[$weekday].'曜日やで';
 	}
-	else if (preg_match('/(^|\s+)(\S{2,})の天気/', $content, $match)) {
+	else if (preg_match('/(^|\s+)(\S{2,})の(週間)?天気/', $content, $match)) {
 		//$url = 'http://www.jma.go.jp/bosai/common/const/area.json';
 		$json = file_get_contents(__DIR__. '/area.json');//そうそう変わらんやろ
 		$jsonar = json_decode($json, true);
@@ -48,13 +48,24 @@ function talk($content) {
 			$mesary = array('どこやねん', '知らんがな');
 			return $mesary[rand(0, count($mesary) - 1)];
 		}
+		if ($match[3] == '週間') {
+			$baseurl = 'https://www.jma.go.jp/bosai/forecast/data/overview_week/';
+		}
+		else {
+			$baseurl = 'https://www.jma.go.jp/bosai/forecast/data/overview_forecast/';
+		}
+		$url = $baseurl. $code. '.json';
 		$context = stream_context_create();
 		stream_context_set_option($context, 'http', 'ignore_errors', true);
-		$url = 'https://www.jma.go.jp/bosai/forecast/data/overview_forecast/'. $code. '.json';
 		$json = file_get_contents($url, false, $context);
 		$jsonar = json_decode($json, true);
 		if (!$jsonar) {
-			return 'そんな田舎の天気なんか知らんで';
+			if ($match[3] == '週間') {
+				return 'そんな先のこと気にせんでええ';
+			}
+			else {
+				return 'そんな田舎の天気なんか知らんで';
+			}
 		}
 		$res = $jsonar['text'];
 		$res = str_replace('\n', "\n", $res);
