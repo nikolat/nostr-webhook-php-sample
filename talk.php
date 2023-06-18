@@ -25,5 +25,40 @@ function talk($content) {
 		$weekday = $date->format('w');
 		$res = $date->format('Y年m月d日 H時i分s秒 ').$week[$weekday].'曜日やで';
 	}
+	else if (preg_match('/(^|\s+)(\S{2,})の天気/', $content, $match)) {
+		//$url = 'http://www.jma.go.jp/bosai/common/const/area.json';
+		$json = file_get_contents(__DIR__. '/area.json');//そうそう変わらんやろ
+		$jsonar = json_decode($json, true);
+		$code = false;
+		foreach ($jsonar['offices'] as $key => $value) {
+			if (strpos($value['name'], $match[2]) !== false) {
+				$code = $key;
+				break;
+			}
+		}
+		if (!$code) {
+			foreach (array_merge($jsonar['class20s'], $jsonar['class15s'], $jsonar['class10s']) as $key => $value) {
+				if (strpos($value['name'], $match[2]) !== false) {
+					$code = substr($value['parent'], 0, -3). '000';//3桁目がある都市もあるのでもっと真面目にやるべき
+					break;
+				}
+			}
+		}
+		if (!$code) {
+			$mesary = array('どこやねん', '知らんがな');
+			return $mesary[rand(0, count($mesary) - 1)];
+		}
+		$context = stream_context_create();
+		stream_context_set_option($context, 'http', 'ignore_errors', true);
+		$url = 'https://www.jma.go.jp/bosai/forecast/data/overview_forecast/'. $code. '.json';
+		$json = file_get_contents($url, false, $context);
+		$jsonar = json_decode($json, true);
+		if (!$jsonar) {
+			return 'そんな田舎の天気なんか知らんで';
+		}
+		$res = $jsonar['text'];
+		$res = str_replace('\n', "\n", $res);
+		$res .= "\n\n（※出典：気象庁ホームページ）";
+	}
 	return $res;
 }
