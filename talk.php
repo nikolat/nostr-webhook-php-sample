@@ -75,5 +75,9 @@ function talk($content) {
 		$res = str_replace('\n', "\n", $res);
 		$res .= "\n\n（※出典：気象庁ホームページ）";
 	}
+	else if (preg_match('/(？|\?)$/', $content)) {
+		$mesary = array('ワイに聞かれても', '知らんて', 'せやな');
+		return $mesary[rand(0, count($mesary) - 1)];
+	}
 	return $res;
 }
