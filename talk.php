@@ -1,7 +1,17 @@
 <?php
 function talk($content) {
 	$res = 'えんいー';
-	if (preg_match('/おすすめ|オススメ|お勧め|お薦め/', $content)) {
+	if (preg_match('/占って|占い/', $content)) {
+		$types = array('牡羊座', '牡牛座', '双子座', '蟹座', '獅子座', '乙女座', '天秤座', '蠍座', '射手座', '山羊座', '水瓶座', '魚座', 'A型', 'B型', 'O型', 'AB型');
+		$stars = array('★★★★★', '★★★★☆', '★★★☆☆', '★★☆☆☆', '★☆☆☆☆', '大吉', '中吉', '小吉', '吉', '末吉', '凶', '大凶');
+		$url = 'http://buynowforsale.shillest.net/ghosts/ghosts/index.rss';
+		$rss = simplexml_load_file($url);
+		$index = mt_rand(0, $rss->channel->item->count() - 1);
+		$res = $types[rand(0, count($types) - 1)]. 'のあなたの今日の運勢は『'. $stars[rand(0, count($stars) - 1)]. "』\n";
+		$res .= 'ラッキーゴーストは『'. $rss->channel->item[$index]->title. '』やで'. "\n";
+		$res .= $rss->channel->item[$index]->link;
+	}
+	else if (preg_match('/おすすめ|オススメ|お勧め|お薦め/', $content)) {
 		$url = 'http://buynowforsale.shillest.net/ghosts/ghosts/index.rss';
 		$rss = simplexml_load_file($url);
 		$index = mt_rand(0, $rss->channel->item->count() - 1);
@@ -52,7 +62,7 @@ function talk($content) {
 			$mesary = array('どこやねん', '知らんがな');
 			return $mesary[rand(0, count($mesary) - 1)];
 		}
-		if ($match[3] == '週間') {
+		if (array_key_exists(3, $match)) {
 			$baseurl = 'https://www.jma.go.jp/bosai/forecast/data/overview_week/';
 		}
 		else {
