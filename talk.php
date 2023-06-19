@@ -35,6 +35,10 @@ function talk($content) {
 		$weekday = $date->format('w');
 		$res = $date->format('Y年m月d日 H時i分s秒 ').$week[$weekday].'曜日やで';
 	}
+	else if (preg_match('/ログボ|ログインボーナス/', $content)) {
+		$mesary = array('ログボとかあらへん', '継続は力やな', '今日もログインしてえらいやで');
+		return $mesary[rand(0, count($mesary) - 1)];
+	}
 	else if (preg_match('/いい(？|\?)$/', $content)) {
 		$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
 		return $mesary[rand(0, count($mesary) - 1)];
