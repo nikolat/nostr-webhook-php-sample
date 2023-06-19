@@ -28,7 +28,7 @@ $tags = [];
 $content = 'えんいー';//mention以外はこれ固定
 if ($isMention) {
 	//mentionに対してはmentionで返す
-	$tags = [['p', $data['pubkey']], ['e', $data['id'], '', 'reply']];
+	$tags = [['p', $data['pubkey']], ['e', $data['id'], '', '']];
 	//返答を作成
 	$content = talk($data['content']);
 }
