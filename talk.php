@@ -98,5 +98,9 @@ function talk($content) {
 		$mesary = array('ワイに聞かれても', '知らんて', 'せやな');
 		return $mesary[rand(0, count($mesary) - 1)];
 	}
+	else if (preg_match('/えんいー/', $content)) {
+		$mesary = array('ほい、えんいー', 'ほな、またな', 'おつかれ');
+		return $mesary[rand(0, count($mesary) - 1)];
+	}
 	return $res;
 }
