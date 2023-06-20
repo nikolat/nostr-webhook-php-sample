@@ -2,6 +2,7 @@
 require_once './config.php';
 // mention判定
 $isMention = false;
+$rootid = null;
 $json = file_get_contents('php://input');
 if ($json) {
 	$data = json_decode($json, true);
@@ -12,7 +13,11 @@ if ($json) {
 	foreach ($data['tags'] as $tag) {
 		if ($tag[0] == 'p' && $tag[1] == PUBLIC_KEY) {
 			$isMention = true;
-			break;
+		}
+		else if ($tag[0] == 'e' && array_key_exists(3, $tag)) {
+			if ($tag[3] == 'root') {
+				$rootid = $tag[1];
+			}
 		}
 	}
 }
@@ -28,7 +33,12 @@ $tags = [];
 $content = 'えんいー';//mention以外はこれ固定
 if ($isMention) {
 	//mentionに対してはmentionで返す
-	$tags = [['p', $data['pubkey']], ['e', $data['id'], '', '']];
+	if ($rootid) {
+		$tags = [['p', $data['pubkey']], ['e', $rootid, '', 'root'], ['e', $data['id'], '', 'reply']];
+	}
+	else {
+		$tags = [['p', $data['pubkey']], ['e', $data['id'], '', 'root']];
+	}
 	//返答を作成
 	$content = talk($data['content']);
 }
