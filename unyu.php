@@ -2,7 +2,7 @@
 require_once './config.php';
 // mention判定
 $isMention = false;
-$rootid = null;
+$rootTag = null;
 $json = file_get_contents('php://input');
 if ($json) {
 	$data = json_decode($json, true);
@@ -16,7 +16,7 @@ if ($json) {
 		}
 		else if ($tag[0] == 'e' && array_key_exists(3, $tag)) {
 			if ($tag[3] == 'root') {
-				$rootid = $tag[1];
+				$rootTag = $tag;
 			}
 		}
 	}
@@ -33,8 +33,8 @@ $tags = [];
 $content = 'えんいー';//mention以外はこれ固定
 if ($isMention) {
 	//mentionに対してはmentionで返す
-	if ($rootid) {
-		$tags = [['p', $data['pubkey']], ['e', $rootid, '', 'root'], ['e', $data['id'], '', 'reply']];
+	if ($rootTag) {
+		$tags = [['p', $data['pubkey']], $rootTag, ['e', $data['id'], '', 'reply']];
 	}
 	else {
 		$tags = [['p', $data['pubkey']], ['e', $data['id'], '', 'root']];
