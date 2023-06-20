@@ -4,6 +4,7 @@ require_once './config.php';
 $isMention = false;
 $rootTag = null;
 $json = file_get_contents('php://input');
+$data = null;
 if ($json) {
 	$data = json_decode($json, true);
 	if ($data['pubkey'] == PUBLIC_KEY) {//自分自身の投稿には反応しない
@@ -30,7 +31,7 @@ require_once './talk.php';
 $created_at = time() + 1;//1秒遅らせるのはマナーです
 $kind = 1;
 $tags = [];
-$content = 'えんいー';//mention以外はこれ固定
+$content = 'えんいー';
 if ($isMention) {
 	//mentionに対してはmentionで返す
 	if ($rootTag) {
@@ -41,6 +42,10 @@ if ($isMention) {
 	}
 	//返答を作成
 	$content = talk($data['content']);
+}
+else if ($data) {
+	//エアリプ
+	$content = airrep($data['content']);
 }
 
 $array = [0, PUBLIC_KEY, $created_at, $kind, $tags, $content];

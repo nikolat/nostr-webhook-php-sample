@@ -42,11 +42,11 @@ function talk($content) {
 	}
 	else if (preg_match('/ログボ|ログインボーナス/', $content)) {
 		$mesary = array('ログボとかあらへん', '継続は力やな', '今日もログインしてえらいやで');
-		return $mesary[rand(0, count($mesary) - 1)];
+		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
 	else if (preg_match('/いい(？|\?)$/', $content)) {
 		$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
-		return $mesary[rand(0, count($mesary) - 1)];
+		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
 	else if (preg_match('/(^|\s+)(\S{2,})の(週間)?天気/', $content, $match)) {
 		//$url = 'http://www.jma.go.jp/bosai/common/const/area.json';
@@ -96,11 +96,19 @@ function talk($content) {
 	}
 	else if (preg_match('/(？|\?)$/', $content)) {
 		$mesary = array('ワイに聞かれても', '知らんて', 'せやな');
-		return $mesary[rand(0, count($mesary) - 1)];
+		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
 	else if (preg_match('/えんいー/', $content)) {
 		$mesary = array('ほい、えんいー', 'ほな、またな', 'おつかれ');
-		return $mesary[rand(0, count($mesary) - 1)];
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
+	return $res;
+}
+function airrep($content) {
+	$res = 'えんいー';
+	if (preg_match('/いい(？|\?)$/', $content)) {
+		$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
+		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
 	return $res;
 }
