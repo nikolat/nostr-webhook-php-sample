@@ -110,5 +110,9 @@ function airrep($content) {
 		$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
+	else if (preg_match('/(ほめて|褒めて)$/', $content)) {
+		$mesary = array('えらいやで', '偉業やで', 'すごいやん');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
 	return $res;
 }
