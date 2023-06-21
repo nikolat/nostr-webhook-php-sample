@@ -36,10 +36,10 @@ function makeJson($mode) {
 	if ($mode == 'mention' && $isMention) {
 		//mentionに対してはmentionで返す
 		if ($rootTag) {
-			$tags = [['p', $data['pubkey']], $rootTag, ['e', $data['id'], '', 'reply']];
+			$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
 		}
 		else {
-			$tags = [['p', $data['pubkey']], ['e', $data['id'], '', 'root']];
+			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
 		}
 		//返答を作成
 		$content = talk($data['content']);
@@ -47,6 +47,12 @@ function makeJson($mode) {
 	else if ($mode == 'airrep' && !$isMention && $data) {
 		//エアリプ
 		$content = airrep($data['content']);
+	}
+	else if ($mode == 'fav' && $data) {
+		//ふぁぼ
+		$kind = 7;
+		$content = '⭐';
+		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
 	}
 	else {
 		return '{}';
