@@ -48,7 +48,7 @@ function talk($content) {
 		$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
-	else if (preg_match('/(^|\s+)(\S{2,})の(週間)?天気/', $content, $match)) {
+	else if (preg_match('/(^|\s+)(\S+)の(週間)?天気/u', $content, $match)) {
 		//$url = 'http://www.jma.go.jp/bosai/common/const/area.json';
 		$json = file_get_contents(__DIR__. '/area.json');//そうそう変わらんやろ
 		$jsonar = json_decode($json, true);
@@ -112,6 +112,10 @@ function airrep($content) {
 	}
 	else if (preg_match('/(ほめて|褒めて)$/', $content)) {
 		$mesary = array('えらいやで', '偉業やで', 'すごいやん');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
+	else if (preg_match('/[行い]っ?てきます.?$/u', $content)) {
+		$mesary = array('気いつけてな', 'いてら', 'お土産よろしゅう');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
 	return $res;
