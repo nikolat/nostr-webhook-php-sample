@@ -34,12 +34,17 @@ function makeJson($mode) {
 	$tags = [];
 	$content = 'えんいー';
 	if ($mode == 'mention' && $isMention) {
-		//mentionに対してはmentionで返す
-		if ($rootTag) {
-			$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
+		//replyに対しては基本replyで返すが、稀にmentionで返す BOT同士のreplyの無限応酬を防ぐ目的
+		if (rand(0, 9) > 0) {
+			if ($rootTag) {
+				$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
+			}
+			else {
+				$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
+			}
 		}
 		else {
-			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
+			$tags = [['e', $data['id'], '', 'mention']];
 		}
 		//返答を作成
 		$content = talk($data['content']);
