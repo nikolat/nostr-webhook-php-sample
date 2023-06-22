@@ -118,5 +118,11 @@ function airrep($content) {
 		$mesary = array('気いつけてな', 'いてら', 'お土産よろしゅう');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
+	else if (preg_match('/^みんな(.*)(て|で)は?る$/u', $content, $match)) {
+		$res = $match[1]. $match[2].'へんのお前だけや';
+	}
+	else if (preg_match('/^みんな(.*)(て|で)へん$/u', $content, $match)) {
+		$res = $match[1]. $match[2]. 'んのお前だけや';
+	}
 	return $res;
 }
