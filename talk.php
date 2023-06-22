@@ -44,7 +44,7 @@ function talk($content) {
 		$mesary = array('ログボとかあらへん', '継続は力やな', '今日もログインしてえらいやで');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
-	else if (preg_match('/いい(？|\?)$/', $content)) {
+	else if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
 		$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
@@ -106,7 +106,7 @@ function talk($content) {
 }
 function airrep($content) {
 	$res = 'えんいー';
-	if (preg_match('/いい(？|\?)$/', $content)) {
+	if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
 		$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
