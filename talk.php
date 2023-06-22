@@ -83,7 +83,7 @@ function talk($content) {
 		$json = file_get_contents($url, false, $context);
 		$jsonar = json_decode($json, true);
 		if (!$jsonar) {
-			if ($match[3] == '週間') {
+			if (array_key_exists(3, $match)) {
 				return 'そんな先のこと気にせんでええ';
 			}
 			else {
