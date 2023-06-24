@@ -52,6 +52,7 @@ function makeJson($mode) {
 	else if ($mode == 'airrep' && !$isMention && $data) {
 		//エアリプ
 		$content = airrep($data['content']);
+		$tags = [['e', $data['id'], '', 'mention']];
 	}
 	else if ($mode == 'fav' && $data) {
 		//ふぁぼ
