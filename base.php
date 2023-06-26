@@ -8,6 +8,7 @@ function makeJson($mode) {
 	// mention判定
 	$isMention = false;
 	$rootTag = null;
+	$emojiTags = [];
 	$json = file_get_contents('php://input');
 	$data = null;
 	if ($json) {
@@ -24,6 +25,9 @@ function makeJson($mode) {
 				if ($tag[3] == 'root') {
 					$rootTag = $tag;
 				}
+			}
+			else if ($tag[0] == 'emoji') {
+				$emojiTags[] = $tag;
 			}
 		}
 	}
@@ -51,8 +55,9 @@ function makeJson($mode) {
 	}
 	else if ($mode == 'airrep' && !$isMention && $data) {
 		//エアリプ
-		$content = airrep($data['content']);
+		$content = airrep($data['content'], $emojiTags);
 		$tags = [['e', $data['id'], '', 'mention']];
+		$tags = array_merge($tags, $emojiTags);
 	}
 	else if ($mode == 'fav' && $data) {
 		//ふぁぼ

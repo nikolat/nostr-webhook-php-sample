@@ -105,7 +105,7 @@ function talk($content) {
 	}
 	return $res;
 }
-function airrep($content) {
+function airrep($content, $emojiTags) {
 	$res = 'えんいー';
 	if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
 		$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
@@ -125,8 +125,12 @@ function airrep($content) {
 	else if (preg_match('/^みんな(.*)(て|で)へん$/u', $content, $match)) {
 		$res = $match[1]. $match[2]. 'んのお前だけや';
 	}
-	else if (preg_match('/(^|\s+)(\S{1,10})を(燃|も)やして.?$/u', $content, $match)) {
-		$res = $match[2]. "\n". str_repeat('🔥', mb_strlen($match[2]));
+	else if (preg_match('/(^|\s+)(\S{1,30})を(燃|も)やして.?$/u', $content, $match)) {
+		$len = mb_strlen($match[2]);
+		foreach ($emojiTags as $emojiTag) {
+			$len = $len - (mb_strlen($emojiTag[1]) + 1);
+		}
+		$res = $match[2]. "\n". str_repeat('🔥', $len);
 	}
 	return $res;
 }
