@@ -92,7 +92,7 @@ function talk($content) {
 		$mesary = array('ワイに聞かれても', '知らんて', 'せやな');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
-	else if (preg_match('/ありがと|(たす|助)か(る|った)/', $content)) {
+	else if (preg_match('/ありが(と|て)|(たす|助)か(る|った)/', $content)) {
 		$mesary = array('ええってことよ', '礼はいらんで', 'かまへん');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
