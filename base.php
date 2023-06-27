@@ -7,6 +7,7 @@ use Mdanter\Ecc\Crypto\Signature\SchnorrSignature;
 function makeJson($mode) {
 	// mention判定
 	$isMention = false;
+	$isMentionOther = false;
 	$rootTag = null;
 	$emojiTags = [];
 	$json = file_get_contents('php://input');
@@ -18,8 +19,13 @@ function makeJson($mode) {
 			return '{}';
 		}
 		foreach ($data['tags'] as $tag) {
-			if ($tag[0] == 'p' && $tag[1] == PUBLIC_KEY) {
-				$isMention = true;
+			if ($tag[0] == 'p') {
+				if ($tag[1] == PUBLIC_KEY) {
+					$isMention = true;
+				}
+				else {
+					$isMentionOther = true;
+				}
 			}
 			else if ($tag[0] == 'e' && array_key_exists(3, $tag)) {
 				if ($tag[3] == 'root') {
@@ -53,7 +59,7 @@ function makeJson($mode) {
 		//返答を作成
 		$content = talk($data['content']);
 	}
-	else if ($mode == 'airrep' && !$isMention && $data) {
+	else if ($mode == 'airrep' && !$isMention && !$isMentionOther && $data) {
 		//エアリプ
 		$content = airrep($data['content'], $emojiTags);
 		$tags = [['e', $data['id'], '', 'mention']];

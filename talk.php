@@ -88,6 +88,10 @@ function talk($content) {
 		$mesary = array('ログボとかあらへん', '継続は力やな', '今日もログインしてえらいやで');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
+	else if (preg_match('/(ほめて|褒めて|のでえらい).?$/u', $content)) {
+		$mesary = array('えらいやで', '偉業やで', 'すごいやん');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
 	else if (preg_match('/(？|\?)$/', $content)) {
 		$mesary = array('ワイに聞かれても', '知らんて', 'せやな');
 		$res = $mesary[rand(0, count($mesary) - 1)];
