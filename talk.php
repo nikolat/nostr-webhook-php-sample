@@ -66,6 +66,9 @@ function talk($content) {
 		$res = str_replace('\n', "\n", $res);
 		$res .= "\n\n（※出典：気象庁ホームページ）";
 	}
+	else if (preg_match('/(npub\w{59}) ?(さん)?に(.{1,10})を/u', $content, $match)) {
+		$res = 'nostr:'. $match[1]. ' '. $match[3]. "三\nあちらのお客様からやで";
+	}
 	else if (preg_match('/doc/i', $content)) {
 		$res = 'http://ssp.shillest.net/ukadoc/manual/';
 	}

@@ -4,8 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitefb1a10a95529b22e7ddd53969614d82
+class ComposerStaticInitc20c91f8699380be96ea5613c205dc5c
 {
+    public static $files = array (
+        'a626201e4406003b96eee958a069f504' => __DIR__ . '/..' . '/bitwasp/bech32/src/bech32.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'M' => 
         array (
@@ -14,6 +18,10 @@ class ComposerStaticInitefb1a10a95529b22e7ddd53969614d82
         'F' => 
         array (
             'FG\\' => 3,
+        ),
+        'B' => 
+        array (
+            'BitWasp\\Bech32\\' => 15,
         ),
     );
 
@@ -26,6 +34,10 @@ class ComposerStaticInitefb1a10a95529b22e7ddd53969614d82
         array (
             0 => __DIR__ . '/..' . '/fgrosse/phpasn1/lib',
         ),
+        'BitWasp\\Bech32\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bitwasp/bech32/src',
+        ),
     );
 
     public static $classMap = array (
@@ -35,9 +47,9 @@ class ComposerStaticInitefb1a10a95529b22e7ddd53969614d82
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitefb1a10a95529b22e7ddd53969614d82::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitefb1a10a95529b22e7ddd53969614d82::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitefb1a10a95529b22e7ddd53969614d82::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc20c91f8699380be96ea5613c205dc5c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc20c91f8699380be96ea5613c205dc5c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitc20c91f8699380be96ea5613c205dc5c::$classMap;
 
         }, null, ClassLoader::class);
     }

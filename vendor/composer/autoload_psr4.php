@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'Mdanter\\Ecc\\' => array($vendorDir . '/public-square/phpecc/src'),
     'FG\\' => array($vendorDir . '/fgrosse/phpasn1/lib'),
+    'BitWasp\\Bech32\\' => array($vendorDir . '/bitwasp/bech32/src'),
 );

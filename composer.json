@@ -1,5 +1,6 @@
 {
     "require": {
+        "bitwasp/bech32": "^0.0.1",
         "public-square/phpecc": "^0.1.2"
     }
 }

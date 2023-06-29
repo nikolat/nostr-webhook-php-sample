@@ -19,6 +19,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'bitwasp/bech32' => array(
+            'pretty_version' => 'v0.0.1',
+            'version' => '0.0.1.0',
+            'reference' => 'e1ea58c848a4ec59d81b697b3dfe9cc99968d0e7',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../bitwasp/bech32',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'fgrosse/phpasn1' => array(
             'pretty_version' => 'v2.5.0',
             'version' => '2.5.0.0',

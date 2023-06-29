@@ -3,11 +3,14 @@ require_once 'vendor/autoload.php';
 require_once './config.php';
 require_once './talk.php';
 use Mdanter\Ecc\Crypto\Signature\SchnorrSignature;
+use function BitWasp\Bech32\convertBits;
+use function BitWasp\Bech32\encode;
 
 function makeJson($mode) {
 	// mention判定
 	$isMention = false;
 	$isMentionOther = false;
+	$mentionOtherTag = null;
 	$rootTag = null;
 	$emojiTags = [];
 	$json = file_get_contents('php://input');
@@ -25,6 +28,7 @@ function makeJson($mode) {
 				}
 				else {
 					$isMentionOther = true;
+					$mentionOtherTag = $tag;
 				}
 			}
 			else if ($tag[0] == 'e' && array_key_exists(3, $tag)) {
@@ -58,6 +62,11 @@ function makeJson($mode) {
 		}
 		//返答を作成
 		$content = talk($data['content']);
+		//特殊対応 返信先を変更 もっとちゃんとした対応をするべき
+		if ($isMentionOther && preg_match('/^nostr:(npub\w{59})/u', $content)) {
+			$tags = [$mentionOtherTag, ['e', $data['id'], '', 'mention']];
+			$content = $content. "\n". 'nostr:'. noteEncode($data['id']);
+		}
 	}
 	else if ($mode == 'airrep' && !$isMention && !$isMentionOther && $data) {
 		//エアリプ
@@ -95,4 +104,24 @@ function makeJson($mode) {
 	//出力
 	header('Content-Type: application/json; charset=utf-8');
 	return $jsonStr;
+}
+
+function npubEncode($hex)
+{
+	return encodeBytes('npub', $hex);
+}
+function noteEncode($hex)
+{
+	return encodeBytes('note', $hex);
+}
+function encodeBytes($prefix, $hex)
+{
+	$data = hex2ByteArray($hex);
+	$words = convertBits($data, count($data), 8, 5);
+	return encode($prefix, $words);
+}
+function hex2ByteArray($hexString) {
+	$string = hex2bin($hexString);
+	$ary = unpack('C*', $string);
+	return array_slice($ary, 0, count($ary));
 }
