@@ -46,7 +46,7 @@ function makeJson($mode) {
 	$created_at = time() + 1;//1秒遅らせるのはマナーです
 	$kind = 1;
 	$tags = [];
-	$content = 'えんいー';
+	$content = null;
 	if ($mode == 'mention' && $isMention) {
 		//replyに対しては基本replyで返すが、稀にmentionで返す BOT同士のreplyの無限応酬を防ぐ目的
 		if (rand(0, 9) > 0) {
@@ -62,8 +62,12 @@ function makeJson($mode) {
 		}
 		//返答を作成
 		$content = talk($data['content']);
+		//該当無しなら安全装置起動
+		if ($content == 'えんいー') {
+			$tags = [['e', $data['id'], '', 'mention']];
+		}
 		//特殊対応 返信先を変更 もっとちゃんとした対応をするべき
-		if ($isMentionOther && preg_match('/^nostr:(npub\w{59})/u', $content)) {
+		else if ($isMentionOther && preg_match('/^nostr:(npub\w{59})/u', $content)) {
 			$tags = [$mentionOtherTag, ['e', $data['id'], '', 'mention']];
 			$content = $content. "\n". 'nostr:'. noteEncode($data['id']);
 		}
