@@ -16,6 +16,30 @@ function talk($content) {
 		$res .= 'ラッキーゴーストは『'. $rss->channel->item[$index]->title. '』やで'. "\n";
 		$res .= $rss->channel->item[$index]->link;
 	}
+	else if (preg_match('/ニュース/u', $content)) {
+		$feeds = array(
+			'https://www3.nhk.or.jp/rss/news/cat0.xml'
+			, 'https://rss.itmedia.co.jp/rss/2.0/itmedia_all.xml'
+			, 'https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf'
+			, 'https://internet.watch.impress.co.jp/data/rss/1.0/iw/feed.rdf'
+			, 'https://pc.watch.impress.co.jp/data/rss/1.0/pcw/feed.rdf'
+		);
+		$url = $feeds[mt_rand(0, count($feeds) - 1)];
+		$rss = simplexml_load_file($url);
+		$index = mt_rand(0, 2);// 新しめのニュースだけ引っ張ってくる
+		if ($rss->channel->item->count()) {
+			//$index = mt_rand(0, $rss->channel->item->count() - 1);
+			$res = '【'. $rss->channel->title. "】\n";
+			$res .= $rss->channel->item[$index]->title. "\n";
+			$res .= $rss->channel->item[$index]->link;
+		}
+		else {
+			//$index = mt_rand(0, $rss->item->count() - 1);
+			$res = '【'. $rss->channel->title. "】\n";
+			$res .= $rss->item[$index]->title. "\n";
+			$res .= $rss->item[$index]->link;
+		}
+	}
 	else if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
 		$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
 		$res = $mesary[rand(0, count($mesary) - 1)];
