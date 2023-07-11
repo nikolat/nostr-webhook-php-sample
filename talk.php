@@ -150,8 +150,14 @@ function talk($content) {
 function airrep($content, $emojiTags) {
 	$res = 'えんいー';
 	if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
-		$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
-		$res = $mesary[rand(0, count($mesary) - 1)];
+		if (preg_match('/何|なに|誰|だれ|どこ|いつ/u', $content)) {
+			$mesary = array('難しいところやな', '自分の信じた道を進むんや', '知らんがな');
+			$res = $mesary[rand(0, count($mesary) - 1)];
+		}
+		else {
+			$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
+			$res = $mesary[rand(0, count($mesary) - 1)];
+		}
 	}
 	else if (preg_match('/^ちくわ大明神$/u', $content)) {
 		$res = '誰や今の';
