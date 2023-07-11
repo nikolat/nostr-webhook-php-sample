@@ -137,6 +137,10 @@ function talk($content) {
 	else if (preg_match('/ぽわ/', $content)) {
 		$res = 'ぽわ〜';
 	}
+	else if (preg_match('/再起動/', $content)) {
+		$mesary = array('ワイもう眠いんやけど', 'もう店じまいやで', 'もう寝かしてくれんか');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
 	else if (preg_match('/えんいー/', $content)) {
 		$mesary = array('ほい、えんいー', 'ほな、またな', 'おつかれ');
 		$res = $mesary[rand(0, count($mesary) - 1)];
