@@ -41,8 +41,14 @@ function talk($content) {
 		}
 	}
 	else if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
-		$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
-		$res = $mesary[rand(0, count($mesary) - 1)];
+		if (preg_match('/何|なに|誰|だれ|どこ|いつ/u', $content)) {
+			$mesary = array('難しいところやな', '自分の信じた道を進むんや', '知らんがな');
+			$res = $mesary[rand(0, count($mesary) - 1)];
+		}
+		else {
+			$mesary = array('ええで', 'ええんやで', 'あかんに決まっとるやろ');
+			$res = $mesary[rand(0, count($mesary) - 1)];
+		}
 	}
 	else if (preg_match('/(^|\s+)(\S+)の(週間)?天気/u', $content, $match)) {
 		//$url = 'http://www.jma.go.jp/bosai/common/const/area.json';
