@@ -81,8 +81,14 @@ function makeJson($mode) {
 	else if ($mode == 'fav' && $data) {
 		//ふぁぼ
 		$kind = 7;
-		$content = '⭐';
-		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
+		if (preg_match('/うにゅう/u', $data['content'])) {
+			$content = ':unyu:';
+			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', ''], ['emoji','unyu', 'https://pbs.twimg.com/profile_images/59070266/unyu_400x400.png']];
+		}
+		else {
+			$content = '⭐';
+			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
+		}
 	}
 	else {
 		return '{}';
