@@ -136,6 +136,10 @@ function talk($content) {
 		$mesary = array('ええってことよ', '礼はいらんで', 'かまへん');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
+	else if (preg_match('/ごめん|すまん/', $content)) {
+		$mesary = array('気にせんでええで', '気にしてへんで', '今度何か奢ってや');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
 	else if (preg_match('/かわいい|可愛い|すごい|かっこいい|えらい|偉い|かしこい|賢い/', $content)) {
 		$mesary = array('わかっとるで', 'おだててもなんもあらへんで', 'せやろ？');
 		$res = $mesary[rand(0, count($mesary) - 1)];
