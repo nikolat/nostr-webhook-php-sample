@@ -151,6 +151,15 @@ function talk($content) {
 	else if (preg_match('/ぽわ/', $content)) {
 		$res = 'ぽわ〜';
 	}
+	else if (preg_match('/検索(呼んで|どこ).?$/u', $content)) {
+		$res = 'nostr:npub1n2uhxrph9fgyp3u2xxqxhuz0vykt8dw8ehvw5uaesl0z4mvatpas0ngm26';
+	}
+	else if (preg_match('/(じゃんけん|ジャンケン|淀川(さん)?)(呼んで|どこ).?$/u', $content)) {
+		$res = 'nostr:npub1y0d0eezhwaskpjhc7rvk6vkkwepu9mj42qt5pqjamzjr97amh2yszkevjg';
+	}
+	else if (preg_match('/やぶみ(ちゃ)?ん?(呼んで|どこ).?$/u', $content)) {
+		$res = 'やっぶみーん';
+	}
 	else if (preg_match('/再起動/', $content)) {
 		$mesary = array('ワイもう眠いんやけど', 'もう店じまいやで', 'もう寝かしてくれんか');
 		$res = $mesary[rand(0, count($mesary) - 1)];
