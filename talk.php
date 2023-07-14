@@ -193,11 +193,19 @@ function airrep($content, $emojiTags) {
 		$res = 'https://heguro.github.io/nostr-following-list-util/';
 	}
 	else if (preg_match('/(^|\s+)(\S{1,30})を(燃|も)やして.?$/u', $content, $match)) {
-		$len = mb_strlen($match[2]);
+		$len = mb_strwidth($match[2]);
+		$target = $match[2];
 		foreach ($emojiTags as $emojiTag) {
-			$len = $len - (mb_strlen($emojiTag[1]) + 1);
+			$len = $len - (mb_strwidth($emojiTag[1]) + 1);
 		}
-		$res = $match[2]. "\n". str_repeat('🔥', $len);
+		$fire = '🔥';
+		if (preg_match('/豆腐|とうふ|トウフ|トーフ|tofu/ui', $content, $match)) {
+			$fire = '📛';
+		}
+		else if (preg_match('/心臓|いのち|命|ハート|はーと|はあと|はぁと/u', $content, $match)) {
+			$fire = '❤️‍🔥';
+		}
+		$res = $target. "\n". str_repeat($fire, $len/2);
 	}
 	return $res;
 }
