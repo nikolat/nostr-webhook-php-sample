@@ -173,7 +173,7 @@ function talk($content) {
 function airrep($content, $emojiTags) {
 	$res = 'えんいー';
 	if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
-		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの/u', $content)) {
+		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち/u', $content)) {
 			$mesary = array('難しいところやな', '自分の信じた道を進むんや', '知らんがな');
 			$res = $mesary[rand(0, count($mesary) - 1)];
 		}
