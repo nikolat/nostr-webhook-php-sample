@@ -41,7 +41,7 @@ function talk($content) {
 		}
 	}
 	else if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
-		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの/u', $content)) {
+		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち/u', $content)) {
 			$mesary = array('難しいところやな', '自分の信じた道を進むんや', '知らんがな');
 			$res = $mesary[rand(0, count($mesary) - 1)];
 		}
@@ -229,7 +229,7 @@ function airrep($content, $emojiTags) {
 		else if (preg_match('/豆腐|とうふ|トウフ|トーフ|tofu/ui', $content, $match)) {
 			$fire = '📛';
 		}
-		else if (preg_match('/魂|心臓|いのち|命|ハート|はーと|はあと|はぁと/u', $content, $match)) {
+		else if (preg_match('/魂|心|いのち|命|ハート|はーと|はあと|はぁと/u', $content, $match)) {
 			$fire = '❤️‍🔥';
 		}
 		$res = $target. "\n". str_repeat($fire, $len_max / 2);
