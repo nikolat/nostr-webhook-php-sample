@@ -153,6 +153,7 @@ function talk($content) {
 	}
 	else if (preg_match('/検索(呼んで|どこ).?$/u', $content)) {
 		$res = 'nostr:npub1n2uhxrph9fgyp3u2xxqxhuz0vykt8dw8ehvw5uaesl0z4mvatpas0ngm26';
+		$res .= "\nhttps://nos.today/";
 		$res .= "\nhttps://search.yabu.me/";
 		$res .= "\nhttps://nosquawks.vercel.app/";
 	}
