@@ -163,6 +163,9 @@ function talk($content) {
 	else if (preg_match('/やぶみ(ちゃ)?ん?(呼んで|どこ).?$/u', $content)) {
 		$res = 'やっぶみーん';
 	}
+	else if (preg_match('/ぬるぽ(呼んで|どこ).?$/u', $content)) {
+		$res = 'ぬるぽ';
+	}
 	else if (preg_match('/再起動/', $content)) {
 		$mesary = array('ワイもう眠いんやけど', 'もう店じまいやで', 'もう寝かしてくれんか');
 		$res = $mesary[rand(0, count($mesary) - 1)];
