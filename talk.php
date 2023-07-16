@@ -153,6 +153,7 @@ function talk($content) {
 	}
 	else if (preg_match('/検索(呼んで|どこ).?$/u', $content)) {
 		$res = 'nostr:npub1n2uhxrph9fgyp3u2xxqxhuz0vykt8dw8ehvw5uaesl0z4mvatpas0ngm26';
+		$res .= "\nhttps://search.yabu.me/";
 	}
 	else if (preg_match('/(じゃんけん|ジャンケン|淀川(さん)?)(呼んで|どこ).?$/u', $content)) {
 		$res = 'nostr:npub1y0d0eezhwaskpjhc7rvk6vkkwepu9mj42qt5pqjamzjr97amh2yszkevjg';
