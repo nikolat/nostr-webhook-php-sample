@@ -71,6 +71,14 @@ function makeJson($mode) {
 			$tags = [$mentionOtherTag, ['e', $data['id'], '', 'mention']];
 			$content = $content. "\n". 'nostr:'. noteEncode($data['id']);
 		}
+		else if (preg_match('/^どこやねん$/u', $content) && !rand(0, 1)) {
+			$npub_yabumi = 'npub1823chanrkmyrfgz2v4pwmu22s8fjy0s9ps7vnd68n7xgd8zr9neqlc2e5r';
+			$npub_yabumi_hex = '3aa38bf663b6c834a04a6542edf14a81d3223e050c3cc9b7479f8c869c432cf2';
+			if (preg_match('/(^|\s+)(\S+)の(週間)?天気/u', $data['content'], $match)) {
+				$tags = [['p', $npub_yabumi_hex, ''], ['e', $data['id'], '', 'mention']];
+				$content = 'nostr:'. $npub_yabumi. ' '. $match[2]. 'の天気をご所望やで'. "\n". 'nostr:'. noteEncode($data['id']);
+			}
+		}
 	}
 	else if ($mode == 'airrep' && !$isMention && !$isMentionOther && $data) {
 		//エアリプ

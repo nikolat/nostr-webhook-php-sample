@@ -73,7 +73,7 @@ function talk($content) {
 			}
 		}
 		if (!$code) {
-			$mesary = array('どこやねん', '知らんがな');
+			$mesary = array('どこやねん', 'どこやねん', '知らんがな');
 			return $mesary[rand(0, count($mesary) - 1)];
 		}
 		if (array_key_exists(3, $match)) {
