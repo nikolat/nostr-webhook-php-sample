@@ -174,7 +174,7 @@ function talk($content) {
 		$mesary = array('ほい、えんいー', 'ほな、またな', 'おつかれ');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
-	else if (preg_match('/[呼よ](んだだけ|んでみた)/u', $content)) {
+	else if (preg_match('/[呼よ](んだだけ|んでみた)|(何|なん)でもない/u', $content)) {
 		$mesary = array('指名料10,000satsやで', '友達おらんのか', 'かまってほしいんか');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
