@@ -174,6 +174,9 @@ function talk($content) {
 		$mesary = array('ほい、えんいー', 'ほな、またな', 'おつかれ');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
+	else if (preg_match('/(🫂|🤗)/u', $content, $match)) {
+		$res = $match[1];
+	}
 	return $res;
 }
 function airrep($content, $emojiTags) {
