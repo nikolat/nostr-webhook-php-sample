@@ -216,7 +216,7 @@ function airrep($content, $emojiTags) {
 	else if (preg_match('/^みんな(.*)(て|で)へん$/u', $content, $match)) {
 		$res = $match[1]. $match[2]. 'んのお前だけや';
 	}
-	else if (preg_match('/^うっにゅうーん$/u', $content, $match)) {
+	else if (preg_match('/^うっにゅうーん.?$/u', $content, $match)) {
 		$res = 'なんやねん';
 	}
 	else if (preg_match('/(フォロー|ふぉろー)[飛と]んだ.?$/u', $content, $match)) {
