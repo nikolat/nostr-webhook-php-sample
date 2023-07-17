@@ -182,6 +182,10 @@ function talk($content) {
 		$mesary = array('ワイは誰も助けへんで', '自分でなんとかせえ', 'そんなコマンドあらへんで');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
+	else if (preg_match('/すき|好き|愛してる|あいしてる/u', $content)) {
+		$mesary = array('ワイも好きやで', '物好きなやっちゃな', 'すまんがワイにはさくらがおるんや…');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
 	else if (preg_match('/(🫂|🤗)/u', $content, $match)) {
 		$res = $match[1];
 	}
