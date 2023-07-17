@@ -178,6 +178,10 @@ function talk($content) {
 		$mesary = array('指名料10,000satsやで', '友達おらんのか', 'かまってほしいんか');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
+	else if (preg_match('/(ヘルプ|へるぷ|help)/ui', $content)) {
+		$mesary = array('ワイは誰も助けへんで', '自分でなんとかせえ', 'そんなコマンドあらへんで');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
 	else if (preg_match('/(🫂|🤗)/u', $content, $match)) {
 		$res = $match[1];
 	}
