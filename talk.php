@@ -121,8 +121,13 @@ function talk($content) {
 		$res = $date->format('Y年m月d日 H時i分s秒 ').$week[$weekday].'曜日やで';
 	}
 	else if (preg_match('/ログボ|ログインボーナス/', $content)) {
-		$mesary = array('ログボとかあらへん', '継続は力やな', '今日もログインしてえらいやで');
-		$res = $mesary[rand(0, count($mesary) - 1)];
+		if (preg_match('/うにゅう|自分/', $content)) {
+			$res = 'ログボ';
+		}
+		else {
+			$mesary = array('ログボとかあらへん', '継続は力やな', '今日もログインしてえらいやで');
+			$res = $mesary[rand(0, count($mesary) - 1)];
+		}
 	}
 	else if (preg_match('/(ほめて|褒めて|のでえらい).?$/u', $content)) {
 		$mesary = array('えらいやで', '偉業やで', 'すごいやん');
