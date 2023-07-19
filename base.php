@@ -83,7 +83,7 @@ function makeJson($mode) {
 			$npub_yabumi = 'npub1823chanrkmyrfgz2v4pwmu22s8fjy0s9ps7vnd68n7xgd8zr9neqlc2e5r';
 			$npub_yabumi_hex = '3aa38bf663b6c834a04a6542edf14a81d3223e050c3cc9b7479f8c869c432cf2';
 			$tags = [['p', $npub_yabumi_hex, ''], ['e', $data['id'], '', 'mention']];
-			$mesary = array('別に欲しくはないんやけど、ログボくれんか', 'ログボって何やねん', 'ここでログボがもらえるんか');
+			$mesary = array('別に欲しくはないんやけど、ログボくれんか', 'ログボって何やねん', 'ここでログボがもらえるって聞いたんやけど');
 			$res = $mesary[rand(0, count($mesary) - 1)];
 			$content = 'nostr:'. $npub_yabumi. ' '. $res. "\n". 'nostr:'. noteEncode($data['id']);
 		}

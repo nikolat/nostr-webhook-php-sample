@@ -121,7 +121,7 @@ function talk($content) {
 		$res = $date->format('Y年m月d日 H時i分s秒 ').$week[$weekday].'曜日やで';
 	}
 	else if (preg_match('/ログボ|ログインボーナス/', $content)) {
-		if (preg_match('/うにゅう|自分/', $content)) {
+		if (preg_match('/うにゅう|自分|[引ひ]いて|もらって/', $content)) {
 			$res = 'ログボ';
 		}
 		else {
