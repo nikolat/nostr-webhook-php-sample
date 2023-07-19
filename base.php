@@ -99,7 +99,7 @@ function makeJson($mode) {
 		$kind = 7;
 		if (preg_match('/うにゅう/u', $data['content'])) {
 			$content = ':unyu:';
-			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', ''], ['emoji','unyu', 'https://pbs.twimg.com/profile_images/59070266/unyu_400x400.png']];
+			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', ''], ['emoji','unyu', 'https://nikolat.github.io/avatar/disc2.png']];
 		}
 		else {
 			$content = '⭐';
