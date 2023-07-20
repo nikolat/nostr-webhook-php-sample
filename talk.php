@@ -219,6 +219,17 @@ function talk($content, $emojiTags) {
 		$mesary = array('ワイも好きやで', '物好きなやっちゃな', 'すまんがワイにはさくらがおるんや…');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
+	else if (preg_match('/ランド|開いてる|閉じてる|開園|閉園/u', $content)) {
+		$url = 'https://nullpoga.mattn-jp.workers.dev/ochinchinland';
+		$json = file_get_contents($url);
+		$jsonar = json_decode($json, true);
+		$mesary = array('開いとるで', '開園しとるで');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+		if ($jsonar['status'] == 'close') {
+			$mesary = array('閉じとるで', '閉園しとるで');
+			$res = $mesary[rand(0, count($mesary) - 1)];
+		}
+	}
 	else if (preg_match('/(🫂|🤗)/u', $content, $match)) {
 		$res = $match[1];
 	}
