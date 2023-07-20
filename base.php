@@ -61,7 +61,7 @@ function makeJson($mode) {
 			$tags = [['e', $data['id'], '', 'mention']];
 		}
 		//返答を作成
-		$content = talk($data['content']);
+		$content = talk($data['content'], $emojiTags);
 		//該当無しなら安全装置起動
 		if ($content == 'えんいー') {
 			$tags = [['e', $data['id'], '', 'mention']];
