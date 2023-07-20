@@ -99,9 +99,9 @@ function talk($content, $emojiTags) {
 		$res = str_replace('\n', "\n", $res);
 		$res = $place. "の天気やで。\n\n". $res. "\n\n（※出典：気象庁ホームページ）";
 	}
-	else if (preg_match('/(\S{1,30})を([燃萌も]やして|焼いて|凍らせて|冷やして).?$/us', $content, $match)) {
-		$target = $match[1];
-		$lines = preg_split("/\r\n|\r|\n/", $match[1]);
+	else if (preg_match('/(.+)を([燃萌も]やして|焼いて|凍らせて|冷やして).?$/us', $content, $match)) {
+		$target = trim(preg_replace('/nostr:(npub\w{59})/', '', $match[1]));
+		$lines = preg_split("/\r\n|\r|\n/", $target);
 		$len = 0;
 		$len_max = 0;
 		foreach ($lines as $line) {
@@ -114,16 +114,16 @@ function talk($content, $emojiTags) {
 			}
 		}
 		$fire = '🔥';
-		if (preg_match('/(凍らせて|冷やして).?$/u', $content, $match)) {
+		if (preg_match('/(凍らせて|冷やして).?$/u', $target, $match)) {
 			$fire = '🧊';
 		}
-		else if (preg_match('/萌やして.?$/u', $content, $match)) {
+		else if (preg_match('/萌やして.?$/u', $target, $match)) {
 			$fire = '💕';
 		}
-		else if (preg_match('/豆腐|とうふ|トウフ|トーフ|tofu/ui', $content, $match)) {
+		else if (preg_match('/豆腐|とうふ|トウフ|トーフ|tofu/ui', $target, $match)) {
 			$fire = '📛';
 		}
-		else if (preg_match('/魂|心|いのち|命|ハート|はーと|はあと|はぁと/u', $content, $match)) {
+		else if (preg_match('/魂|心|いのち|命|ハート|はーと|はあと|はぁと/u', $target, $match)) {
 			$fire = '❤️‍🔥';
 		}
 		$res = $target. "\n". str_repeat($fire, $len_max / 2);
@@ -263,7 +263,7 @@ function airrep($content, $emojiTags) {
 	else if (preg_match('/(フォロー|ふぉろー)[飛と]んだ.?$/u', $content, $match)) {
 		$res = 'https://heguro.github.io/nostr-following-list-util/';
 	}
-	else if (preg_match('/(\S{1,30})を([燃萌も]やして|焼いて|凍らせて|冷やして).?$/us', $content, $match)) {
+	else if (preg_match('/(.{1,30})を([燃萌も]やして|焼いて|凍らせて|冷やして).?$/us', $content, $match)) {
 		$target = $match[1];
 		$lines = preg_split("/\r\n|\r|\n/", $match[1]);
 		$len = 0;
