@@ -174,7 +174,7 @@ function talk($content, $emojiTags) {
 		$mesary = array('わかっとるで', 'おだててもなんもあらへんで', 'せやろ？');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
-	else if (preg_match('/あかんか/', $content)) {
+	else if (preg_match('/あかんの?か/u', $content)) {
 		$mesary = array('そらあかんて', 'あかんよ', 'あかんがな');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
