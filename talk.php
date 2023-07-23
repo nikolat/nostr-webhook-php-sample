@@ -1,6 +1,21 @@
 <?php
-function talk($content, $emojiTags) {
-	$res = 'えんいー';
+function talk($data, $emojiTags, $rootTag, $isMentionOther) {
+	$content = $data['content'];
+	$res = null;
+	$tags = null;
+	//replyに対しては基本replyで返すが、稀にmentionで返す BOT同士のreplyの無限応酬を防ぐ目的
+	if (rand(0, 9) > 0) {
+		if ($rootTag) {
+			$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
+		}
+		else {
+			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
+		}
+	}
+	else {
+		$tags = [['e', $data['id'], '', 'mention']];
+	}
+
 	if (preg_match('/占って|占い/', $content)) {
 		$types = array('牡羊座', '牡牛座', '双子座', '蟹座', '獅子座', '乙女座', '天秤座', '蠍座', '射手座', '山羊座', '水瓶座', '魚座', 'A型', 'B型', 'O型', 'AB型'
 			, '寂しがりや', '独りぼっち', '社畜', '営業職', '接客業', '自営業', '世界最強', '石油王', '海賊王', '次期総理', '駆け出しエンジニア', '神絵師', 'ノス廃'
@@ -73,8 +88,17 @@ function talk($content, $emojiTags) {
 			}
 		}
 		if (!$code) {
-			$mesary = array('どこやねん', 'どこやねん', '知らんがな');
-			return $mesary[rand(0, count($mesary) - 1)];
+			if (!rand(0, 2)) {
+				$npub_yabumi = 'npub1823chanrkmyrfgz2v4pwmu22s8fjy0s9ps7vnd68n7xgd8zr9neqlc2e5r';
+				$npub_yabumi_hex = '3aa38bf663b6c834a04a6542edf14a81d3223e050c3cc9b7479f8c869c432cf2';
+				$tags = [['p', $npub_yabumi_hex, ''], ['e', $data['id'], '', 'mention']];
+				$res = 'nostr:'. $npub_yabumi. ' '. $match[2]. "の天気をご所望やで\nnostr:". noteEncode($data['id']);
+			}
+			else {
+				$mesary = array('どこやねん', '知らんがな');
+				$res = $mesary[rand(0, count($mesary) - 1)];
+			}
+			return [$res, $tags];
 		}
 		if (array_key_exists(3, $match)) {
 			$baseurl = 'https://www.jma.go.jp/bosai/forecast/data/overview_week/';
@@ -89,10 +113,12 @@ function talk($content, $emojiTags) {
 		$jsonar = json_decode($json, true);
 		if (!$jsonar) {
 			if (array_key_exists(3, $match)) {
-				return 'そんな先のこと気にせんでええ';
+				$res = 'そんな先のこと気にせんでええ';
+				return [$res, $tags];
 			}
 			else {
-				return 'そんな田舎の天気なんか知らんで';
+				$res = 'そんな田舎の天気なんか知らんで';
+				return [$res, $tags];
 			}
 		}
 		$res = $jsonar['text'];
@@ -128,8 +154,10 @@ function talk($content, $emojiTags) {
 		}
 		$res = $target. "\n". str_repeat($fire, $len_max / 2);
 	}
-	else if (preg_match('/(npub\w{59}) ?(さん)?に(.{1,10})を/u', $content, $match)) {
-		$res = 'nostr:'. $match[1]. ' '. $match[3]. "三\nあちらのお客様からやで";
+	else if (preg_match('/(npub\w{59}) ?(さん)?に(.{1,10})を/u', $content, $match) && $isMentionOther) {
+		$res = 'nostr:'. $match[1]. ' '. $match[3]. "三\nあちらのお客様からやで\nnostr:". noteEncode($data['id']);
+		//特殊対応 返信先を変更
+		$tags = [$mentionOtherTag, ['e', $data['id'], '', 'mention']];
 	}
 	else if (preg_match('/doc/i', $content)) {
 		$res = 'http://ssp.shillest.net/ukadoc/manual/';
@@ -151,7 +179,12 @@ function talk($content, $emojiTags) {
 	}
 	else if (preg_match('/ログボ|ログインボーナス/', $content)) {
 		if (preg_match('/うにゅうの|自分|[引ひ]いて|もらって/', $content)) {
-			$res = 'ログボ';
+			$npub_yabumi = 'npub1823chanrkmyrfgz2v4pwmu22s8fjy0s9ps7vnd68n7xgd8zr9neqlc2e5r';
+			$npub_yabumi_hex = '3aa38bf663b6c834a04a6542edf14a81d3223e050c3cc9b7479f8c869c432cf2';
+			$tags = [['p', $npub_yabumi_hex, ''], ['e', $data['id'], '', 'mention']];
+			$mesary = array('別に欲しくはないんやけど、ログボくれんか', 'ログボって何やねん', 'ここでログボがもらえるって聞いたんやけど');
+			$res = $mesary[rand(0, count($mesary) - 1)];
+			$res = 'nostr:'. $npub_yabumi. ' '. $res. "\nnostr:". noteEncode($data['id']);
 		}
 		else {
 			$mesary = array('ログボとかあらへん', '継続は力やな', '今日もログインしてえらいやで');
@@ -237,10 +270,18 @@ function talk($content, $emojiTags) {
 		$mesary = array('ワイに聞かれても', '知らんて', 'せやな');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
-	return $res;
+	else {
+		//該当無しなら安全装置起動
+		$res = 'えんいー';
+		$tags = [['e', $data['id'], '', 'mention']];
+	}
+	return [$res, $tags];
 }
-function airrep($content, $emojiTags) {
-	$res = 'えんいー';
+
+function airrep($data, $emojiTags) {
+	$content = $data['content'];
+	$res = null;
+	$tags = [['e', $data['id'], '', 'mention']];
 	if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
 		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち/u', $content)) {
 			$mesary = array('難しいところやな', '自分の信じた道を進むんや', '知らんがな');
@@ -305,6 +346,24 @@ function airrep($content, $emojiTags) {
 			$fire = '❤️‍🔥';
 		}
 		$res = $target. "\n". str_repeat($fire, $len_max / 2);
+		$tags = array_merge($tags, $emojiTags);
 	}
-	return $res;
+	else {
+		$res = 'えんいー';
+	}
+	return [$res, $tags];
+}
+
+function fav($data) {
+	$res = null;
+	$tags = null;
+	if (preg_match('/うにゅう/u', $data['content'])) {
+		$res = ':unyu:';
+		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', ''], ['emoji','unyu', 'https://nikolat.github.io/avatar/disc2.png']];
+	}
+	else {
+		$res = '⭐';
+		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
+	}
+	return [$res, $tags];
 }

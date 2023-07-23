@@ -45,66 +45,20 @@ function makeJson($mode) {
 	//投稿作成
 	$created_at = time() + 1;//1秒遅らせるのはマナーです
 	$kind = 1;
-	$tags = [];
+	$tags = null;
 	$content = null;
 	if ($mode == 'mention' && $isMention) {
-		//replyに対しては基本replyで返すが、稀にmentionで返す BOT同士のreplyの無限応酬を防ぐ目的
-		if (rand(0, 9) > 0) {
-			if ($rootTag) {
-				$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
-			}
-			else {
-				$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
-			}
-		}
-		else {
-			$tags = [['e', $data['id'], '', 'mention']];
-		}
 		//返答を作成
-		$content = talk($data['content'], $emojiTags);
-		//該当無しなら安全装置起動
-		if ($content == 'えんいー') {
-			$tags = [['e', $data['id'], '', 'mention']];
-		}
-		//特殊対応 返信先を変更 もっとちゃんとした対応をするべき
-		else if ($isMentionOther && preg_match('/^nostr:(npub\w{59})/u', $content)) {
-			$tags = [$mentionOtherTag, ['e', $data['id'], '', 'mention']];
-			$content = $content. "\n". 'nostr:'. noteEncode($data['id']);
-		}
-		else if (preg_match('/^どこやねん$/u', $content) && !rand(0, 1)) {
-			$npub_yabumi = 'npub1823chanrkmyrfgz2v4pwmu22s8fjy0s9ps7vnd68n7xgd8zr9neqlc2e5r';
-			$npub_yabumi_hex = '3aa38bf663b6c834a04a6542edf14a81d3223e050c3cc9b7479f8c869c432cf2';
-			if (preg_match('/(^|\s+)(\S+)の(週間)?天気/u', $data['content'], $match)) {
-				$tags = [['p', $npub_yabumi_hex, ''], ['e', $data['id'], '', 'mention']];
-				$content = 'nostr:'. $npub_yabumi. ' '. $match[2]. 'の天気をご所望やで'. "\n". 'nostr:'. noteEncode($data['id']);
-			}
-		}
-		else if (preg_match('/^ログボ$/u', $content)) {
-			$npub_yabumi = 'npub1823chanrkmyrfgz2v4pwmu22s8fjy0s9ps7vnd68n7xgd8zr9neqlc2e5r';
-			$npub_yabumi_hex = '3aa38bf663b6c834a04a6542edf14a81d3223e050c3cc9b7479f8c869c432cf2';
-			$tags = [['p', $npub_yabumi_hex, ''], ['e', $data['id'], '', 'mention']];
-			$mesary = array('別に欲しくはないんやけど、ログボくれんか', 'ログボって何やねん', 'ここでログボがもらえるって聞いたんやけど');
-			$res = $mesary[rand(0, count($mesary) - 1)];
-			$content = 'nostr:'. $npub_yabumi. ' '. $res. "\n". 'nostr:'. noteEncode($data['id']);
-		}
+		[$content, $tags] = talk($data, $emojiTags, $rootTag, $isMentionOther);
 	}
 	else if ($mode == 'airrep' && !$isMention && !$isMentionOther && $data) {
 		//エアリプ
-		$content = airrep($data['content'], $emojiTags);
-		$tags = [['e', $data['id'], '', 'mention']];
-		$tags = array_merge($tags, $emojiTags);
+		[$content, $tags] = airrep($data, $emojiTags);
 	}
 	else if ($mode == 'fav' && $data) {
 		//ふぁぼ
 		$kind = 7;
-		if (preg_match('/うにゅう/u', $data['content'])) {
-			$content = ':unyu:';
-			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', ''], ['emoji','unyu', 'https://nikolat.github.io/avatar/disc2.png']];
-		}
-		else {
-			$content = '⭐';
-			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
-		}
+		[$content, $tags] = fav($data);
 	}
 	else {
 		return '{}';
