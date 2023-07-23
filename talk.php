@@ -30,6 +30,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther) {
 		$res = $types[rand(0, count($types) - 1)]. 'のあなたの今日の運勢は『'. $stars[rand(0, count($stars) - 1)]. "』\n";
 		$res .= 'ラッキーゴーストは『'. $rss->channel->item[$index]->title. '』やで'. "\n";
 		$res .= $rss->channel->item[$index]->link;
+		$tags[] = ['r', $rss->channel->item[$index]->link];
 	}
 	else if (preg_match('/ニュース/u', $content)) {
 		$feeds = array(
@@ -47,12 +48,14 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther) {
 			$res = '【'. $rss->channel->title. "】\n";
 			$res .= $rss->channel->item[$index]->title. "\n";
 			$res .= $rss->channel->item[$index]->link;
+			$tags[] = ['r', $rss->channel->item[$index]->link];
 		}
 		else {
 			//$index = mt_rand(0, $rss->item->count() - 1);
 			$res = '【'. $rss->channel->title. "】\n";
 			$res .= $rss->item[$index]->title. "\n";
 			$res .= $rss->item[$index]->link;
+			$tags[] = ['r', $rss->item[$index]->link];
 		}
 	}
 	else if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
@@ -160,16 +163,24 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther) {
 		$tags = [$mentionOtherTag, ['e', $data['id'], '', 'mention']];
 	}
 	else if (preg_match('/doc/i', $content)) {
-		$res = 'http://ssp.shillest.net/ukadoc/manual/';
+		$url = 'http://ssp.shillest.net/ukadoc/manual/';
+		$res = $url;
+		$tags[] = ['r', $url];
 	}
 	else if (preg_match('/yaya/i', $content)) {
-		$res = 'https://emily.shillest.net/ayaya/';
+		$url = 'https://emily.shillest.net/ayaya/';
+		$res = $url;
+		$tags[] = ['r', $url];
 	}
 	else if (preg_match('/里々|satori/i', $content)) {
-		$res = 'https://soliton.sub.jp/satori/';
+		$url = 'https://soliton.sub.jp/satori/';
+		$res = $url;
+		$tags[] = ['r', $url];
 	}
 	else if (preg_match('/ソース|コード|GitHub|リポジトリ|中身/i', $content)) {
-		$res = 'https://github.com/nikolat/nostr-webhook-php-sample';
+		$url = 'https://github.com/nikolat/nostr-webhook-php-sample';
+		$res = $url;
+		$tags[] = ['r', $url];
 	}
 	else if (preg_match('/時刻|時報/', $content)) {
 		$date = new DateTime('now');
@@ -219,6 +230,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther) {
 		$res .= "\nhttps://nos.today/";
 		$res .= "\nhttps://search.yabu.me/";
 		$res .= "\nhttps://nosquawks.vercel.app/";
+		$tags = array_merge($tags, [['r', 'https://nos.today/'], ['r', 'https://search.yabu.me/'], ['r', 'https://nosquawks.vercel.app/']]);
 	}
 	else if (preg_match('/(じゃんけん|ジャンケン|淀川(さん)?)(呼んで|どこ).?$/u', $content)) {
 		$res = 'nostr:npub1y0d0eezhwaskpjhc7rvk6vkkwepu9mj42qt5pqjamzjr97amh2yszkevjg';
@@ -313,7 +325,9 @@ function airrep($data, $emojiTags) {
 		$res = 'なんやねん';
 	}
 	else if (preg_match('/(フォロー|ふぉろー)[飛と]んだ.?$/u', $content, $match)) {
-		$res = 'https://heguro.github.io/nostr-following-list-util/';
+		$url = 'https://heguro.github.io/nostr-following-list-util/';
+		$res = $url;
+		$tags[] = ['r', $url];
 	}
 	else if (preg_match('/(.{1,30})を([燃萌も]やして|焼いて|凍らせて|冷やして|通報して).?$/us', $content, $match)) {
 		$target = $match[1];
