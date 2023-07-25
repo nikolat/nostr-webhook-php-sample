@@ -1,5 +1,5 @@
 <?php
-function talk($data, $emojiTags, $rootTag, $isMentionOther) {
+function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 	$content = $data['content'];
 	$res = null;
 	$tags = null;

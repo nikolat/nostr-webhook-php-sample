@@ -49,7 +49,7 @@ function makeJson($mode) {
 	$content = null;
 	if ($mode == 'mention' && $isMention) {
 		//返答を作成
-		[$content, $tags] = talk($data, $emojiTags, $rootTag, $isMentionOther);
+		[$content, $tags] = talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag);
 	}
 	else if ($mode == 'airrep' && !$isMention && !$isMentionOther && $data) {
 		//エアリプ
