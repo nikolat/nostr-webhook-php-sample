@@ -32,32 +32,6 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 		$res .= $rss->channel->item[$index]->link;
 		$tags[] = ['r', $rss->channel->item[$index]->link];
 	}
-	else if (preg_match('/ニュース/u', $content)) {
-		$feeds = array(
-			'https://www3.nhk.or.jp/rss/news/cat0.xml'
-			, 'https://rss.itmedia.co.jp/rss/2.0/itmedia_all.xml'
-			, 'https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf'
-			, 'https://internet.watch.impress.co.jp/data/rss/1.0/iw/feed.rdf'
-			, 'https://pc.watch.impress.co.jp/data/rss/1.0/pcw/feed.rdf'
-		);
-		$url = $feeds[mt_rand(0, count($feeds) - 1)];
-		$rss = simplexml_load_file($url);
-		$index = mt_rand(0, 2);// 新しめのニュースだけ引っ張ってくる
-		if ($rss->channel->item->count()) {
-			//$index = mt_rand(0, $rss->channel->item->count() - 1);
-			$res = '【'. $rss->channel->title. "】\n";
-			$res .= $rss->channel->item[$index]->title. "\n";
-			$res .= $rss->channel->item[$index]->link;
-			$tags[] = ['r', $rss->channel->item[$index]->link];
-		}
-		else {
-			//$index = mt_rand(0, $rss->item->count() - 1);
-			$res = '【'. $rss->channel->title. "】\n";
-			$res .= $rss->item[$index]->title. "\n";
-			$res .= $rss->item[$index]->link;
-			$tags[] = ['r', $rss->item[$index]->link];
-		}
-	}
 	else if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
 		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち/u', $content)) {
 			$mesary = array('難しいところやな', '自分の信じた道を進むんや', '知らんがな');
@@ -157,10 +131,36 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 		}
 		$res = $target. "\n". str_repeat($fire, $len_max / 2);
 	}
-	else if (preg_match('/(npub\w{59}) ?(さん)?に(.{1,10})を/u', $content, $match) && $isMentionOther) {
+	else if (preg_match('/(npub\w{59}) ?(さん)?に(.{1,50})を/us', $content, $match) && $isMentionOther) {
 		$res = 'nostr:'. $match[1]. ' '. $match[3]. "三\nあちらのお客様からやで\nnostr:". noteEncode($data['id']);
 		//特殊対応 返信先を変更
 		$tags = [$mentionOtherTag, ['e', $data['id'], '', 'mention']];
+	}
+	else if (preg_match('/ニュース/u', $content)) {
+		$feeds = array(
+			'https://www3.nhk.or.jp/rss/news/cat0.xml'
+			, 'https://rss.itmedia.co.jp/rss/2.0/itmedia_all.xml'
+			, 'https://forest.watch.impress.co.jp/data/rss/1.0/wf/feed.rdf'
+			, 'https://internet.watch.impress.co.jp/data/rss/1.0/iw/feed.rdf'
+			, 'https://pc.watch.impress.co.jp/data/rss/1.0/pcw/feed.rdf'
+		);
+		$url = $feeds[mt_rand(0, count($feeds) - 1)];
+		$rss = simplexml_load_file($url);
+		$index = mt_rand(0, 2);// 新しめのニュースだけ引っ張ってくる
+		if ($rss->channel->item->count()) {
+			//$index = mt_rand(0, $rss->channel->item->count() - 1);
+			$res = '【'. $rss->channel->title. "】\n";
+			$res .= $rss->channel->item[$index]->title. "\n";
+			$res .= $rss->channel->item[$index]->link;
+			$tags[] = ['r', $rss->channel->item[$index]->link];
+		}
+		else {
+			//$index = mt_rand(0, $rss->item->count() - 1);
+			$res = '【'. $rss->channel->title. "】\n";
+			$res .= $rss->item[$index]->title. "\n";
+			$res .= $rss->item[$index]->link;
+			$tags[] = ['r', $rss->item[$index]->link];
+		}
 	}
 	else if (preg_match('/doc/i', $content)) {
 		$url = 'http://ssp.shillest.net/ukadoc/manual/';
