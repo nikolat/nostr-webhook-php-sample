@@ -33,7 +33,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 		$tags[] = ['r', $rss->channel->item[$index]->link];
 	}
 	else if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
-		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち/u', $content)) {
+		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち|どれ/u', $content)) {
 			$mesary = array('難しいところやな', '自分の信じた道を進むんや', '知らんがな');
 			$res = $mesary[rand(0, count($mesary) - 1)];
 		}
@@ -295,7 +295,7 @@ function airrep($data, $emojiTags) {
 	$res = null;
 	$tags = [['e', $data['id'], '', 'mention']];
 	if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
-		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち/u', $content)) {
+		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち|どれ/u', $content)) {
 			$mesary = array('難しいところやな', '自分の信じた道を進むんや', '知らんがな');
 			$res = $mesary[rand(0, count($mesary) - 1)];
 		}
