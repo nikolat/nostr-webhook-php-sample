@@ -102,7 +102,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 		$res = str_replace('\n', "\n", $res);
 		$res = $place. "の天気やで。\n\n". $res. "\n\n（※出典：気象庁ホームページ）";
 	}
-	else if (preg_match('/(.+)を([燃萌も]やして|焼いて|凍らせて|冷やして).?$/us', $content, $match)) {
+	else if (preg_match('/(.+)を([燃萌も]やして|焼いて|凍らせて|冷やして|通報して).?$/us', $content, $match)) {
 		$target = trim(preg_replace('/nostr:(npub\w{59})/', '', $match[1]));
 		$lines = preg_split("/\r\n|\r|\n/", $target);
 		$len = 0;
@@ -117,16 +117,19 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 			}
 		}
 		$fire = '🔥';
-		if (preg_match('/(凍らせて|冷やして).?$/u', $target, $match)) {
+		if (preg_match('/(凍らせて|冷やして).?$/u', $content, $match)) {
 			$fire = '🧊';
 		}
-		else if (preg_match('/萌やして.?$/u', $target, $match)) {
+		else if (preg_match('/萌やして.?$/u', $content, $match)) {
 			$fire = '💕';
 		}
-		else if (preg_match('/豆腐|とうふ|トウフ|トーフ|tofu/ui', $target, $match)) {
+		else if (preg_match('/通報して.?$/u', $content, $match)) {
+			$fire = '⚠️';
+		}
+		else if (preg_match('/豆腐|とうふ|トウフ|トーフ|tofu/ui', $content, $match)) {
 			$fire = '📛';
 		}
-		else if (preg_match('/魂|心|いのち|命|ハート|はーと|はあと|はぁと/u', $target, $match)) {
+		else if (preg_match('/魂|心|いのち|命|ハート|はーと|はあと|はぁと/u', $content, $match)) {
 			$fire = '❤️‍🔥';
 		}
 		$res = $target. "\n". str_repeat($fire, $len_max / 2);
