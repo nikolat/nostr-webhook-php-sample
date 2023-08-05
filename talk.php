@@ -255,6 +255,13 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 	else if (preg_match('/うにゅう(呼んで|どこ).?$/u', $content)) {
 		$res = 'ワイはここにおるで';
 	}
+	else if (preg_match('/Don(さん)?(呼んで|どこ).?$/u', $content)) {
+		$npub_don = 'npub1dv9xpnlnajj69vjstn9n7ufnmppzq3wtaaq085kxrz0mpw2jul2qjy6uhz';
+		$npub_don_hex = '6b0a60cff3eca5a2b2505ccb3f7133d8422045cbef40f3d2c6189fb0b952e7d4';
+		$tags = [['p', $npub_don_hex, ''], ['e', $data['id'], '', 'mention']];
+		$res = '呼ばれとるで';
+		$res = 'nostr:'. $npub_don. ' '. $res. "\nnostr:". noteEncode($data['id']);
+	}
 	else if (preg_match('/再起動/', $content)) {
 		$mesary = array('ワイもう眠いんやけど', 'もう店じまいやで', 'もう寝かしてくれんか');
 		$res = $mesary[rand(0, count($mesary) - 1)];
