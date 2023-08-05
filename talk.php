@@ -30,7 +30,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 		$res = $types[rand(0, count($types) - 1)]. 'のあなたの今日の運勢は『'. $stars[rand(0, count($stars) - 1)]. "』\n";
 		$res .= 'ラッキーゴーストは『'. $rss->channel->item[$index]->title. '』やで'. "\n";
 		$res .= $rss->channel->item[$index]->link;
-		$tags[] = ['r', $rss->channel->item[$index]->link];
+		$tags[] = ['r', ''. $rss->channel->item[$index]->link];
 	}
 	else if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
 		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち|どれ/u', $content)) {
@@ -161,14 +161,14 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 			$res = '【'. $rss->channel->title. "】\n";
 			$res .= $rss->channel->item[$index]->title. "\n";
 			$res .= $rss->channel->item[$index]->link;
-			$tags[] = ['r', $rss->channel->item[$index]->link];
+			$tags[] = ['r', ''. $rss->channel->item[$index]->link];
 		}
 		else {
 			//$index = mt_rand(0, $rss->item->count() - 1);
 			$res = '【'. $rss->channel->title. "】\n";
 			$res .= $rss->item[$index]->title. "\n";
 			$res .= $rss->item[$index]->link;
-			$tags[] = ['r', $rss->item[$index]->link];
+			$tags[] = ['r', ''. $rss->item[$index]->link];
 		}
 	}
 	else if (preg_match('/doc/i', $content)) {
