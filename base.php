@@ -53,7 +53,7 @@ function makeJson($mode) {
 	}
 	else if ($mode == 'airrep' && !$isMention && !$isMentionOther && $data) {
 		//エアリプ
-		[$content, $tags] = airrep($data, $emojiTags);
+		[$content, $tags] = airrep($data, $emojiTags, $rootTag);
 	}
 	else if ($mode == 'fav' && $data) {
 		//ふぁぼ
