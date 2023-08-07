@@ -211,6 +211,10 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 			$res = $mesary[rand(0, count($mesary) - 1)];
 		}
 	}
+	else if (preg_match('/(もらって|あげる|どうぞ).?$/u', $content)) {
+		$mesary = array('別に要らんで', '気持ちだけもらっておくで', 'いらんがな');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
 	else if (preg_match('/(ほめて|褒めて|のでえらい).?$/u', $content)) {
 		$mesary = array('えらいやで', '偉業やで', 'すごいやん');
 		$res = $mesary[rand(0, count($mesary) - 1)];
