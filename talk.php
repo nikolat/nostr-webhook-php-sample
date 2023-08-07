@@ -303,6 +303,9 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 	else if (preg_match('/(🫂|🤗)/u', $content, $match)) {
 		$res = $match[1];
 	}
+	else if (preg_match('/[💋💕]/u', $content, $match)) {
+		$res = '😨';
+	}
 	else if (preg_match('/(？|\?)$/', $content)) {
 		$mesary = array('ワイに聞かれても', '知らんて', 'せやな');
 		$res = $mesary[rand(0, count($mesary) - 1)];
