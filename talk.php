@@ -344,12 +344,12 @@ function airrep($data, $emojiTags, $rootTag) {
 			'74b1821ead1b5b895a196229e550ae8266594f8906b6d34d174336a19236e049'//note1wjccy84drddcjksevg57259wsfn9jnufq6mdxnghgvm2ry3kupystu7s5l
 		);
 		$note_hex = $notes[rand(0, count($notes) - 1)];
-		$res = 'nostr:'. noteEncode($note_hex);
+		$res = "#うにゅう画像\nnostr:". noteEncode($note_hex);
 		if ($rootTag) {
-			$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply'], ['e', $note_hex, '', 'mention']];
+			$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply'], ['e', $note_hex, '', 'mention'], ['t', 'うにゅう画像']];
 		}
 		else {
-			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root'], ['e', $note_hex, '', 'mention']];
+			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root'], ['e', $note_hex, '', 'mention'], ['t', 'うにゅう画像']];
 		}
 	}
 	else if (preg_match('/^ちくわ大明神$/u', $content)) {
