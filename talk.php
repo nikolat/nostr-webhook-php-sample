@@ -372,6 +372,9 @@ function airrep($data, $emojiTags, $rootTag) {
 	else if (preg_match('/^うっにゅうーん.?$/u', $content, $match)) {
 		$res = 'なんやねん';
 	}
+	else if (preg_match('/^ぎゅうっにゅう?ーん.?$/u', $content, $match)) {
+		$res = '🥛なんやねん🥛';
+	}
 	else if (preg_match('/(フォロー|ふぉろー)[飛と]んだ.?$/u', $content, $match)) {
 		$url = 'https://heguro.github.io/nostr-following-list-util/';
 		$res = $url;
