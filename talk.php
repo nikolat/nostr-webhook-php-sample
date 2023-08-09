@@ -102,7 +102,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 		$res = str_replace('\n', "\n", $res);
 		$res = $place. "の天気やで。\n\n". $res. "\n\n（※出典：気象庁ホームページ）";
 	}
-	else if (preg_match('/(.+)[をに]([燃萌も]やして|焼いて|凍らせて|冷やして|通報して|火を[付つ]けて|磨いて|爆破して).?$/us', $content, $match)) {
+	else if (preg_match('/(.+)[をに]([燃萌も]やして|焼いて|凍らせて|冷やして|通報して|火を[付つ]けて|磨いて|爆破して|注射して|打って|駐車して|停めて).?$/us', $content, $match)) {
 		$target = trim(preg_replace('/nostr:(npub\w{59})/', '', $match[1]));
 		$lines = preg_split("/\r\n|\r|\n/", $target);
 		$len = 0;
@@ -131,6 +131,12 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 		}
 		else if (preg_match('/爆破して.?$/u', $content, $match)) {
 			$fire = '💣';
+		}
+		else if (preg_match('/(注射して|打って).?$/u', $content, $match)) {
+			$fire = '💉';
+		}
+		else if (preg_match('/(駐車して|停めて).?$/u', $content, $match)) {
+			$fire = '🚗';
 		}
 		else if (preg_match('/豆腐|とうふ|トウフ|トーフ|tofu/ui', $content, $match)) {
 			$fire = '📛';
@@ -380,7 +386,7 @@ function airrep($data, $emojiTags, $rootTag) {
 		$res = $url;
 		$tags[] = ['r', $url];
 	}
-	else if (preg_match('/(.{1,30})[をに]([燃萌も]やして|焼いて|凍らせて|冷やして|通報して|火を[付つ]けて|磨いて|爆破して).?$/us', $content, $match)) {
+	else if (preg_match('/(.{1,30})[をに]([燃萌も]やして|焼いて|凍らせて|冷やして|通報して|火を[付つ]けて|磨いて|爆破して|注射して|打って|駐車して|停めて).?$/us', $content, $match)) {
 		$target = $match[1];
 		$lines = preg_split("/\r\n|\r|\n/", $match[1]);
 		$len = 0;
@@ -409,6 +415,12 @@ function airrep($data, $emojiTags, $rootTag) {
 		}
 		else if (preg_match('/爆破して.?$/u', $content, $match)) {
 			$fire = '💣';
+		}
+		else if (preg_match('/(注射して|打って).?$/u', $content, $match)) {
+			$fire = '💉';
+		}
+		else if (preg_match('/(駐車して|停めて).?$/u', $content, $match)) {
+			$fire = '🚗';
 		}
 		else if (preg_match('/豆腐|とうふ|トウフ|トーフ|tofu/ui', $content, $match)) {
 			$fire = '📛';
