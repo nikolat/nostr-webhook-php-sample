@@ -217,6 +217,12 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 			$res = $mesary[rand(0, count($mesary) - 1)];
 		}
 	}
+	else if (preg_match('/あなたの合計ログイン回数は(\d+)回です。/u', $content, $match)) {
+		$mesary = array('おおきに', 'まいど', 'この'. $match[1]. '回分のログボって何に使えるんやろ');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+		$res = $res. "\nnostr:". noteEncode($data['id']);
+		$tags = [['e', $data['id'], '', 'mention']];
+	}
 	else if (preg_match('/(もらって|あげる|どうぞ).?$/u', $content)) {
 		$mesary = array('別に要らんで', '気持ちだけもらっておくで', 'いらんがな');
 		$res = $mesary[rand(0, count($mesary) - 1)];
