@@ -446,7 +446,11 @@ function airrep($data, $emojiTags, $rootTag) {
 function fav($data) {
 	$res = null;
 	$tags = null;
-	if (preg_match('/うにゅう/u', $data['content'])) {
+	if (preg_match('/ぎゅうにゅう/u', $data['content'])) {
+		$res = '🥛';
+		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
+	}
+	else if (preg_match('/うにゅう/u', $data['content'])) {
 		$res = ':unyu:';
 		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', ''], ['emoji','unyu', 'https://nikolat.github.io/avatar/disc2.png']];
 	}
