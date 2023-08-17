@@ -192,7 +192,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 		$res = $url;
 		$tags[] = ['r', $url];
 	}
-	else if (preg_match('/ソース|コード|GitHub|リポジトリ|中身/i', $content)) {
+	else if (preg_match('/ソース|GitHub|リポジトリ|中身/i', $content)) {
 		$url = 'https://github.com/nikolat/nostr-webhook-php-sample';
 		$res = $url;
 		$tags[] = ['r', $url];
@@ -311,6 +311,14 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 			$mesary = array('閉じとるで', '閉園しとるで');
 			$res = $mesary[rand(0, count($mesary) - 1)];
 		}
+	}
+	else if (preg_match('/招待コード/u', $content)) {
+		$mesary = array('他あたってくれんか', 'あらへんで', 'Do Nostr');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
+	else if (preg_match('/翔太コード/u', $content)) {
+		$mesary = array('間違っとるで', 'typoしとるで', '招待コードな');
+		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
 	else if (preg_match('/(🫂|🤗)/u', $content, $match)) {
 		$res = $match[1];
