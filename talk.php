@@ -260,7 +260,8 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 		$res .= "\nhttps://nos.today/";
 		$res .= "\nhttps://search.yabu.me/";
 		$res .= "\nhttps://nosquawks.vercel.app/";
-		$tags = array_merge($tags, [['r', 'https://nos.today/'], ['r', 'https://search.yabu.me/'], ['r', 'https://nosquawks.vercel.app/']]);
+		$res .= "\nhttps://showhyuga.pages.dev/utility/nos_search";
+		$tags = array_merge($tags, [['r', 'https://nos.today/'], ['r', 'https://search.yabu.me/'], ['r', 'https://nosquawks.vercel.app/'], ['r', 'https://showhyuga.pages.dev/utility/nos_search']]);
 	}
 	else if (preg_match('/(じゃんけん|ジャンケン|淀川(さん)?)(呼んで|どこ).?$/u', $content)) {
 		$res = 'nostr:npub1y0d0eezhwaskpjhc7rvk6vkkwepu9mj42qt5pqjamzjr97amh2yszkevjg';
