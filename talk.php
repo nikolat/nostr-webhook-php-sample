@@ -392,9 +392,25 @@ function airrep($data, $emojiTags, $rootTag) {
 	}
 	else if (preg_match('/^ぎゅ(うっ|っう)にゅう?ーん.?$/u', $content, $match)) {
 		$res = '🥛なんやねん🥛';
+		if (preg_match('/[！!]$/u', $content, $match)) {
+			if ($rootTag) {
+				$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
+			}
+			else {
+				$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
+			}
+		}
 	}
 	else if (preg_match('/^うっにゅうーん.?$/u', $content, $match)) {
 		$res = 'なんやねん';
+		if (preg_match('/[！!]$/u', $content, $match)) {
+			if ($rootTag) {
+				$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
+			}
+			else {
+				$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
+			}
+		}
 	}
 	else if (preg_match('/(フォロー|ふぉろー)[飛と]んだ.?$/u', $content, $match)) {
 		$url = 'https://heguro.github.io/nostr-following-list-util/';
