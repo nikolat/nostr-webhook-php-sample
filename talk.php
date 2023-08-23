@@ -255,6 +255,10 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 		$mesary = array('おはようやで', 'ほい、おはよう', 'もう'. $date->format('G'). '時か、おはよう');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
+	else if (preg_match('/牛乳|ぎゅうにゅう/u', $content, $match)) {
+		$mesary = array('牛乳は健康にええで🥛', 'カルシウム補給せぇ🥛', 'ワイの奢りや🥛');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
 	else if (preg_match('/検索(呼んで|どこ).?$/u', $content)) {
 		$res = 'nostr:npub1n2uhxrph9fgyp3u2xxqxhuz0vykt8dw8ehvw5uaesl0z4mvatpas0ngm26';
 		$res .= "\nhttps://nos.today/";
