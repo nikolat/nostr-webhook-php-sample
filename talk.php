@@ -144,6 +144,10 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 		else if (preg_match('/魂|心|いのち|命|ハート|はーと|はあと|はぁと/u', $content, $match)) {
 			$fire = '❤️‍🔥';
 		}
+		else if (preg_match('/陽性|妖精/u', $content, $match)) {
+			$fireary = array('🧚', '🧚‍♂', '🧚‍♀');
+			$fire = $fireary[rand(0, count($fireary) - 1)];
+		}
 		$res = $target. "\n". str_repeat($fire, $len_max / 2);
 	}
 	else if (preg_match('/(npub\w{59}) ?(さん)?に(.{1,50})を/us', $content, $match) && $isMentionOther) {
