@@ -463,6 +463,10 @@ function airrep($data, $emojiTags, $rootTag) {
 		else if (preg_match('/魂|心|いのち|命|ハート|はーと|はあと|はぁと/u', $content, $match)) {
 			$fire = '❤️‍🔥';
 		}
+		else if (preg_match('/陽性|妖精/u', $content, $match)) {
+			$fireary = array('🧚', '🧚‍♂', '🧚‍♀');
+			$fire = $fireary[rand(0, count($fireary) - 1)];
+		}
 		$res = $target. "\n". str_repeat($fire, $len_max / 2);
 		$tags = array_merge($tags, $emojiTags);
 	}
