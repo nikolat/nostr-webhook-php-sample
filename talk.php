@@ -491,6 +491,15 @@ function fav($data) {
 		$res = ':unyu:';
 		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', ''], ['emoji','unyu', 'https://nikolat.github.io/avatar/disc2.png']];
 	}
+	else if (preg_match('/^うちゅう$/u', $data['content'])) {
+		$mesary = array('🪐', '🛸', '🚀');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
+	}
+	else if (preg_match('/^う[^に]ゅう$/u', $data['content'])) {
+		$res = '❓';
+		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
+	}
 	else {
 		$res = '⭐';
 		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
