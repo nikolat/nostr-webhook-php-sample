@@ -13,6 +13,7 @@ function makeJson($mode) {
 	$mentionOtherTag = null;
 	$rootTag = null;
 	$emojiTags = [];
+	$kindfrom;
 	$json = file_get_contents('php://input');
 	$data = null;
 	if ($json) {
@@ -21,6 +22,7 @@ function makeJson($mode) {
 			header('Content-Type: application/json; charset=utf-8');
 			return '{}';
 		}
+		$kindfrom = $data['kind'];
 		foreach ($data['tags'] as $tag) {
 			if ($tag[0] == 'p') {
 				if ($tag[1] == PUBLIC_KEY) {
@@ -44,16 +46,16 @@ function makeJson($mode) {
 	
 	//投稿作成
 	$created_at = time() + 1;//1秒遅らせるのはマナーです
-	$kind = 1;
+	$kind = $kindfrom;
 	$tags = null;
 	$content = null;
 	if ($mode == 'mention' && $isMention) {
 		//返答を作成
-		[$content, $tags] = talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag);
+		[$content, $tags] = talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $kindfrom);
 	}
 	else if ($mode == 'airrep' && !$isMention && !$isMentionOther && $data) {
 		//エアリプ
-		[$content, $tags] = airrep($data, $emojiTags, $rootTag);
+		[$content, $tags] = airrep($data, $emojiTags, $rootTag, $kindfrom);
 	}
 	else if ($mode == 'fav' && $data) {
 		//ふぁぼ
@@ -61,6 +63,9 @@ function makeJson($mode) {
 		[$content, $tags] = fav($data);
 	}
 	else {
+		return '{}';
+	}
+	if ($content == null) {
 		return '{}';
 	}
 	

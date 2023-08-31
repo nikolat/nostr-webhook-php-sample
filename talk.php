@@ -1,5 +1,9 @@
 <?php
-function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
+function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $kindfrom) {
+	if ($kindfrom == 42) {
+		//TODO
+		return [null, null];
+	}
 	$content = $data['content'];
 	$res = null;
 	$tags = null;
@@ -347,10 +351,19 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag) {
 	return [$res, $tags];
 }
 
-function airrep($data, $emojiTags, $rootTag) {
+function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 	$content = $data['content'];
 	$res = null;
-	$tags = [['e', $data['id'], '', 'mention']];
+	if ($kindfrom == 42) {
+		//Nostr伺か部
+		if ($rootTag[1] != 'be8e52c0c70ec5390779202b27d9d6fc7286d0e9a2bc91c001d6838d40bafa4a') {
+			return [null, null];
+		}
+		$tags = [['e', $data['id'], '', 'mention'], $rootTag];
+	}
+	else {
+		$tags = [['e', $data['id'], '', 'mention']];
+	}
 	if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
 		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち|どれ/u', $content)) {
 			$mesary = array('難しいところやな', '自分の信じた道を進むんや', '知らんがな');
