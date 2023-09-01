@@ -43,9 +43,12 @@ function makeJson($mode) {
 			}
 		}
 	}
+	else {
+		return '{}';
+	}
 	
 	//投稿作成
-	$created_at = time() + 1;//1秒遅らせるのはマナーです
+	$created_at = $data['created_at'] + 1;//1秒遅らせるのはマナーです
 	$kind = $kindfrom;
 	$tags = null;
 	$content = null;
