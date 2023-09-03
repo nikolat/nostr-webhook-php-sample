@@ -306,6 +306,17 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		$res .= "\nhttps://showhyuga.pages.dev/utility/nos_search";
 		$tags = array_merge($tags, [['r', 'https://nos.today/'], ['r', 'https://search.yabu.me/'], ['r', 'https://nosquawks.vercel.app/'], ['r', 'https://showhyuga.pages.dev/utility/nos_search']]);
 	}
+	else if (preg_match('/(パブ|ぱぶ)(リック)?(チャ|ちゃ|茶)(ット)?(呼んで|どこ).?$/u', $content)) {
+		$res = 'GARNET';
+		$res .= "\nhttps://garnet.nostrian.net/";
+		$res .= "\nNostrChat";
+		$res .= "\nhttps://www.nostrchat.io/";
+		$res .= "\nCoracle";
+		$res .= "\nhttps://coracle.social/";
+		$res .= "\nうにゅうハウス";
+		$res .= "\nhttps://unyu-house.vercel.app/";
+		$tags = array_merge($tags, [['r', 'https://garnet.nostrian.net/'], ['r', 'https://www.nostrchat.io/'], ['r', 'https://coracle.social/'], ['r', 'https://unyu-house.vercel.app/']]);
+	}
 	else if (preg_match('/(じゃんけん|ジャンケン|淀川(さん)?)(呼んで|どこ).?$/u', $content)) {
 		$res = 'nostr:npub1y0d0eezhwaskpjhc7rvk6vkkwepu9mj42qt5pqjamzjr97amh2yszkevjg';
 	}
