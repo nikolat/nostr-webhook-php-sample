@@ -1,23 +1,34 @@
 <?php
 function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $kindfrom) {
-	if ($kindfrom == 42) {
-		//TODO
-		return [null, null];
-	}
 	$content = $data['content'];
 	$res = null;
 	$tags = null;
-	//replyに対しては基本replyで返すが、稀にmentionで返す BOT同士のreplyの無限応酬を防ぐ目的
-	if (rand(0, 9) > 0) {
-		if ($rootTag) {
+	if ($kindfrom == 42) {
+		//Nostr伺か部
+		if (!$rootTag || $rootTag[1] != 'be8e52c0c70ec5390779202b27d9d6fc7286d0e9a2bc91c001d6838d40bafa4a') {
+			return [null, null];
+		}
+		//replyに対しては基本replyで返すが、稀にmentionで返す BOT同士のreplyの無限応酬を防ぐ目的
+		if (rand(0, 9) > 0) {
 			$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
 		}
 		else {
-			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
+			$tags = [$rootTag, ['e', $data['id'], '', 'mention']];
 		}
 	}
 	else {
-		$tags = [['e', $data['id'], '', 'mention']];
+		//replyに対しては基本replyで返すが、稀にmentionで返す BOT同士のreplyの無限応酬を防ぐ目的
+		if (rand(0, 9) > 0) {
+			if ($rootTag) {
+				$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
+			}
+			else {
+				$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
+			}
+		}
+		else {
+			$tags = [['e', $data['id'], '', 'mention']];
+		}
 	}
 
 	if (preg_match('/占って|占い/', $content)) {
@@ -72,7 +83,12 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 			if (!rand(0, 2)) {
 				$npub_yabumi = 'npub1823chanrkmyrfgz2v4pwmu22s8fjy0s9ps7vnd68n7xgd8zr9neqlc2e5r';
 				$npub_yabumi_hex = '3aa38bf663b6c834a04a6542edf14a81d3223e050c3cc9b7479f8c869c432cf2';
-				$tags = [['p', $npub_yabumi_hex, ''], ['e', $data['id'], '', 'mention']];
+				if ($kindfrom == 1) {
+					$tags = [['p', $npub_yabumi_hex, ''], ['e', $data['id'], '', 'mention']];
+				}
+				elseif ($kindfrom == 42) {
+					$tags = [['p', $npub_yabumi_hex, ''], $rootTag, ['e', $data['id'], '', 'mention']];
+				}
 				$res = 'nostr:'. $npub_yabumi. ' '. $match[2]. "の天気をご所望やで\nnostr:". noteEncode($data['id']);
 			}
 			else {
@@ -157,7 +173,12 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 	else if (preg_match('/(npub\w{59}) ?(さん)?に(.{1,50})を/us', $content, $match) && $isMentionOther) {
 		$res = 'nostr:'. $match[1]. ' '. $match[3]. "三\nあちらのお客様からやで\nnostr:". noteEncode($data['id']);
 		//特殊対応 返信先を変更
-		$tags = [$mentionOtherTag, ['e', $data['id'], '', 'mention']];
+		if ($kindfrom == 1) {
+			$tags = [$mentionOtherTag, ['e', $data['id'], '', 'mention']];
+		}
+		elseif ($kindfrom == 42) {
+			$tags = [$mentionOtherTag, $rootTag, ['e', $data['id'], '', 'mention']];
+		}
 	}
 	else if (preg_match('/ニュース/u', $content)) {
 		$feeds = array(
@@ -215,7 +236,12 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		if (preg_match('/うにゅうの|自分|[引ひ]いて|もらって/', $content)) {
 			$npub_yabumi = 'npub1823chanrkmyrfgz2v4pwmu22s8fjy0s9ps7vnd68n7xgd8zr9neqlc2e5r';
 			$npub_yabumi_hex = '3aa38bf663b6c834a04a6542edf14a81d3223e050c3cc9b7479f8c869c432cf2';
-			$tags = [['p', $npub_yabumi_hex, ''], ['e', $data['id'], '', 'mention']];
+			if ($kindfrom == 1) {
+				$tags = [['p', $npub_yabumi_hex, ''], ['e', $data['id'], '', 'mention']];
+			}
+			elseif ($kindfrom == 42) {
+				$tags = [['p', $npub_yabumi_hex, ''], $rootTag, ['e', $data['id'], '', 'mention']];
+			}
 			$mesary = array('別に欲しくはないんやけど、ログボくれんか', 'ログボって何やねん', 'ここでログボがもらえるって聞いたんやけど');
 			$res = $mesary[rand(0, count($mesary) - 1)];
 			$res = 'nostr:'. $npub_yabumi. ' '. $res. "\nnostr:". noteEncode($data['id']);
@@ -229,7 +255,12 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		$mesary = array('おおきに', 'まいど', 'この'. $match[1]. '回分のログボって何に使えるんやろ');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 		$res = $res. "\nnostr:". noteEncode($data['id']);
-		$tags = [['e', $data['id'], '', 'mention']];
+		if ($kindfrom == 1) {
+			$tags = [['e', $data['id'], '', 'mention']];
+		}
+		elseif ($kindfrom == 42) {
+			$tags = [$rootTag, ['e', $data['id'], '', 'mention']];
+		}
 	}
 	else if (preg_match('/(もらって|あげる|どうぞ).?$/u', $content)) {
 		$mesary = array('別に要らんで', '気持ちだけもらっておくで', 'いらんがな');
@@ -290,7 +321,12 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 	else if (preg_match('/Don(さん)?(呼んで|どこ).?$/u', $content)) {
 		$npub_don = 'npub1dv9xpnlnajj69vjstn9n7ufnmppzq3wtaaq085kxrz0mpw2jul2qjy6uhz';
 		$npub_don_hex = '6b0a60cff3eca5a2b2505ccb3f7133d8422045cbef40f3d2c6189fb0b952e7d4';
-		$tags = [['p', $npub_don_hex, ''], ['e', $data['id'], '', 'mention']];
+		if ($kindfrom == 1) {
+			$tags = [['p', $npub_don_hex, ''], ['e', $data['id'], '', 'mention']];
+		}
+		elseif ($kindfrom == 42) {
+			$tags = [['p', $npub_don_hex, ''], $rootTag, ['e', $data['id'], '', 'mention']];
+		}
 		$res = '呼ばれとるで';
 		$res = 'nostr:'. $npub_don. ' '. $res. "\nnostr:". noteEncode($data['id']);
 	}
@@ -346,7 +382,12 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 	else {
 		//該当無しなら安全装置起動
 		$res = 'えんいー';
-		$tags = [['e', $data['id'], '', 'mention']];
+		if ($kindfrom == 1) {
+			$tags = [['e', $data['id'], '', 'mention']];
+		}
+		elseif ($kindfrom == 42) {
+			$tags = [$rootTag, ['e', $data['id'], '', 'mention']];
+		}
 	}
 	return [$res, $tags];
 }
