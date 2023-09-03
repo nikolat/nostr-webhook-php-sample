@@ -542,6 +542,9 @@ function fav($data) {
 		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
 	}
 	else if (preg_match('/うにゅう/u', $data['content'])) {
+		if (preg_match('/うにゅうハウス/u', $data['content'])) {
+			return [null, null];
+		}
 		$res = ':unyu:';
 		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', ''], ['emoji','unyu', 'https://nikolat.github.io/avatar/disc2.png']];
 	}
