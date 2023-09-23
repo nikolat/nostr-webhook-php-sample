@@ -341,11 +341,19 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		$res = '呼ばれとるで';
 		$res = 'nostr:'. $npub_don. ' '. $res. "\nnostr:". noteEncode($data['id']);
 	}
-	else if (preg_match('/再起動/', $content)) {
+	else if (preg_match('/Zap|アドレス|報酬/ui', $content)) {
+		$mesary = array('報酬はいらんで', 'ちょっと参加しただけやから', '他の人にあげてくれんか');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
+	else if (preg_match('/おめでとう|正解/ui', $content)) {
+		$mesary = array('ありがとな', 'ざっとこんなもんや', '今日は冴えとるな');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
+	else if (preg_match('/再起動/u', $content)) {
 		$mesary = array('ワイもう眠いんやけど', 'もう店じまいやで', 'もう寝かしてくれんか');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
-	else if (preg_match('/えんいー/', $content)) {
+	else if (preg_match('/えんいー/u', $content)) {
 		$mesary = array('ほい、えんいー', 'ほな、またな', 'おつかれ');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
@@ -538,6 +546,15 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 		}
 		$res = $target. "\n". str_repeat($fire, $len_max / 2);
 		$tags = array_merge($tags, $emojiTags);
+	}
+	else if (preg_match('/#nostrquiz/u', $content)) {
+		$res = ''. floor((rand(150, 300) + rand(150, 300)) / 2);
+		if ($rootTag) {
+			$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
+		}
+		else {
+			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
+		}
 	}
 	else {
 		$res = 'えんいー';
