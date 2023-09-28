@@ -311,11 +311,11 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		$res .= "\nhttps://garnet.nostrian.net/";
 		$res .= "\nNostrChat";
 		$res .= "\nhttps://www.nostrchat.io/";
-		$res .= "\nCoracle";
-		$res .= "\nhttps://coracle.social/";
+		$res .= "\nCoracle Chat";
+		$res .= "\nhttps://chat.coracle.social/";
 		$res .= "\nうにゅうハウス";
 		$res .= "\nhttps://unyu-house.vercel.app/";
-		$tags = array_merge($tags, [['r', 'https://garnet.nostrian.net/'], ['r', 'https://www.nostrchat.io/'], ['r', 'https://coracle.social/'], ['r', 'https://unyu-house.vercel.app/']]);
+		$tags = array_merge($tags, [['r', 'https://garnet.nostrian.net/'], ['r', 'https://www.nostrchat.io/'], ['r', 'https://chat.coracle.social/'], ['r', 'https://unyu-house.vercel.app/']]);
 	}
 	else if (preg_match('/(じゃんけん|ジャンケン|淀川(さん)?)(呼んで|どこ).?$/u', $content)) {
 		$res = 'nostr:npub1y0d0eezhwaskpjhc7rvk6vkkwepu9mj42qt5pqjamzjr97amh2yszkevjg';
