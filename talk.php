@@ -548,12 +548,23 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 		$tags = array_merge($tags, $emojiTags);
 	}
 	else if (preg_match('/#nostrquiz/u', $content)) {
-		$res = ''. floor((rand(150, 300) + rand(150, 300)) / 2);
-		if ($rootTag) {
-			$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
+		if (preg_match('/何人でしょう/u', $content)) {
+			$res = '';
+			if (preg_match('/月の/u', $content)) {
+				$res .= floor((rand(500, 1000) + rand(500, 1000)) / 2);
+			}
+			else {
+				$res .= floor((rand(150, 300) + rand(150, 300)) / 2);
+			}
+			if ($rootTag) {
+				$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
+			}
+			else {
+				$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
+			}
 		}
 		else {
-			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
+			return [null, null];
 		}
 	}
 	else {
