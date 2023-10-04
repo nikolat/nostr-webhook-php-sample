@@ -122,7 +122,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		$res = str_replace('\n', "\n", $res);
 		$res = $place. "の天気やで。\n\n". $res. "\n\n（※出典：気象庁ホームページ）";
 	}
-	else if (preg_match('/(.+)[をに]([燃萌も]やして|焼いて|凍らせて|冷やして|通報して|火を[付つ]けて|磨いて|爆破して|注射して|打って|駐車して|停めて).?$/us', $content, $match)) {
+	else if (preg_match('/(.+)[をに]([燃萌も]やして|焼いて|煮て|炊いて|凍らせて|冷やして|通報して|火を[付つ]けて|磨いて|爆破して|注射して|打って|駐車して|停めて).?$/us', $content, $match)) {
 		$target = trim(preg_replace('/nostr:(npub\w{59})/', '', $match[1]));
 		$lines = preg_split("/\r\n|\r|\n/", $target);
 		$len = 0;
@@ -471,6 +471,17 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 	else if (preg_match('/^みんな(.*)(て|で)へん$/u', $content, $match)) {
 		$res = $match[1]. $match[2]. 'んのお前だけや';
 	}
+	else if (preg_match('/^ぐっにゅう?ーん.?$/u', $content, $match)) {
+		$res = '誰やねん';
+		if (preg_match('/[！!]$/u', $content, $match)) {
+			if ($rootTag) {
+				$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
+			}
+			else {
+				$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
+			}
+		}
+	}
 	else if (preg_match('/^ぎゅ(うっ|っう)にゅう?ーん.?$/u', $content, $match)) {
 		$res = '🥛なんやねん🥛';
 		if (preg_match('/[！!]$/u', $content, $match)) {
@@ -482,7 +493,7 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 			}
 		}
 	}
-	else if (preg_match('/^うっにゅうーん.?$/u', $content, $match)) {
+	else if (preg_match('/^うっにゅう?ーん.?$/u', $content, $match)) {
 		$res = 'なんやねん';
 		if (preg_match('/[！!]$/u', $content, $match)) {
 			if ($rootTag) {
@@ -498,7 +509,7 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 		$res = $url;
 		$tags[] = ['r', $url];
 	}
-	else if (preg_match('/(.{1,30})[をに]([燃萌も]やして|焼いて|凍らせて|冷やして|通報して|火を[付つ]けて|磨いて|爆破して|注射して|打って|駐車して|停めて).?$/us', $content, $match)) {
+	else if (preg_match('/(.{1,30})[をに]([燃萌も]やして|焼いて|煮て|炊いて|凍らせて|冷やして|通報して|火を[付つ]けて|磨いて|爆破して|注射して|打って|駐車して|停めて).?$/us', $content, $match)) {
 		$target = $match[1];
 		$lines = preg_split("/\r\n|\r|\n/", $match[1]);
 		$len = 0;
