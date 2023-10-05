@@ -564,6 +564,9 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 			if (preg_match('/月の/u', $content)) {
 				$res .= floor((rand(500, 1000) + rand(500, 1000)) / 2);
 			}
+			else if (preg_match('/英語/u', $content)) {
+				$res .= floor((rand(1500, 2500) + rand(1500, 2500)) / 2);
+			}
 			else {
 				$res .= floor((rand(150, 300) + rand(150, 300)) / 2);
 			}
