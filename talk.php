@@ -286,6 +286,10 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		$mesary = array('そらあかんて', 'あかんよ', 'あかんがな');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
+	else if (preg_match('/人の心/u', $content)) {
+		$mesary = array('女心なら多少わかるんやけどな', '☑私はロボットではありません', '（バレてしもたやろか…？）');
+		$res = $mesary[rand(0, count($mesary) - 1)];
+	}
 	else if (preg_match('/ぽわ/', $content)) {
 		$res = 'ぽわ〜';
 	}
@@ -566,6 +570,15 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 			}
 			else if (preg_match('/英語/u', $content)) {
 				$res .= floor((rand(1500, 2500) + rand(1500, 2500)) / 2);
+			}
+			else if (preg_match('/フランス語/u', $content)) {
+				$res .= floor((rand(100, 180) + rand(100, 180)) / 2);
+			}
+			else if (preg_match('/ドイツ語/u', $content)) {
+				$res .= floor((rand(150, 200) + rand(150, 200)) / 2);
+			}
+			else if (preg_match('/韓国語/u', $content)) {
+				$res .= floor((rand(50, 150) + rand(50, 150)) / 2);
 			}
 			else {
 				$res .= floor((rand(150, 300) + rand(150, 300)) / 2);
