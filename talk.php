@@ -48,7 +48,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		$tags[] = ['r', ''. $rss->channel->item[$index]->link];
 	}
 	else if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
-		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち|どれ/u', $content)) {
+		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち|どちら|どれ/u', $content)) {
 			$mesary = array('難しいところやな', '自分の信じた道を進むんや', '知らんがな');
 			$res = $mesary[rand(0, count($mesary) - 1)];
 		}
@@ -349,7 +349,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		$mesary = array('報酬はいらんで', 'ちょっと参加しただけやから', '他の人にあげてくれんか');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
-	else if (preg_match('/おめでとう|正解/ui', $content)) {
+	else if (preg_match('/おめでとう|正解/u', $content)) {
 		$mesary = array('ありがとな', 'ざっとこんなもんや', '今日は冴えとるな');
 		$res = $mesary[rand(0, count($mesary) - 1)];
 	}
@@ -429,7 +429,7 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 		$tags = [['e', $data['id'], '', 'mention']];
 	}
 	if (preg_match('/いいの?か?(？|\?)$/u', $content)) {
-		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち|どれ/u', $content)) {
+		if (preg_match('/何|なに|誰|だれ|どこ|いつ|どう|どの|どっち|どちら|どれ/u', $content)) {
 			$mesary = array('難しいところやな', '自分の信じた道を進むんや', '知らんがな');
 			$res = $mesary[rand(0, count($mesary) - 1)];
 		}
