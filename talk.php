@@ -122,7 +122,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		$res = str_replace('\n', "\n", $res);
 		$res = $place. "の天気やで。\n\n". $res. "\n\n（※出典：気象庁ホームページ）";
 	}
-	else if (preg_match('/(.+)[をに]([燃萌も]やして|焼いて|煮て|炊いて|凍らせて|冷やして|通報して|火を[付つ]けて|磨いて|爆破して|注射して|打って|駐車して|停めて).?$/us', $content, $match)) {
+	else if (preg_match('/(.+)[をに]([燃萌も]やして|焼いて|煮て|炊いて|凍らせて|冷やして|通報して|火を[付つ]けて|磨いて|爆破して|注射して|打って|駐車して|停めて|潰して).?$/us', $content, $match)) {
 		$target = trim(preg_replace('/nostr:(npub\w{59})/', '', $match[1]));
 		$lines = preg_split("/\r\n|\r|\n/", $target);
 		$len = 0;
@@ -169,6 +169,9 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 			$fire = $fireary[rand(0, count($fireary) - 1)];
 		}
 		$res = $target. "\n". str_repeat($fire, $len_max / 2);
+		if (preg_match('/潰して/u', $content, $match)) {
+			$res = '🫸'. $target. '🫷';
+		}
 	}
 	else if (preg_match('/(npub\w{59}) ?(さん)?に(.{1,50})を/us', $content, $match) && $isMentionOther) {
 		$res = 'nostr:'. $match[1]. ' '. $match[3]. "三\nあちらのお客様からやで\nnostr:". noteEncode($data['id']);
@@ -513,7 +516,7 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 		$res = $url;
 		$tags[] = ['r', $url];
 	}
-	else if (preg_match('/(.{1,30})[をに]([燃萌も]やして|焼いて|煮て|炊いて|凍らせて|冷やして|通報して|火を[付つ]けて|磨いて|爆破して|注射して|打って|駐車して|停めて).?$/us', $content, $match)) {
+	else if (preg_match('/(.{1,30})[をに]([燃萌も]やして|焼いて|煮て|炊いて|凍らせて|冷やして|通報して|火を[付つ]けて|磨いて|爆破して|注射して|打って|駐車して|停めて|潰して).?$/us', $content, $match)) {
 		$target = $match[1];
 		$lines = preg_split("/\r\n|\r|\n/", $match[1]);
 		$len = 0;
@@ -560,6 +563,9 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 			$fire = $fireary[rand(0, count($fireary) - 1)];
 		}
 		$res = $target. "\n". str_repeat($fire, $len_max / 2);
+		if (preg_match('/潰して/u', $content, $match)) {
+			$res = '🫸'. $target. '🫷';
+		}
 		$tags = array_merge($tags, $emojiTags);
 	}
 	else if (preg_match('/#nostrquiz/u', $content)) {
