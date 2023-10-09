@@ -130,7 +130,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		foreach ($lines as $line) {
 			$len = mb_strwidth($line);
 			foreach ($emojiTags as $emojiTag) {
-				$len = $len - substr_count($line, $emojiTag) * (mb_strwidth($emojiTag[1]) + 1);
+				$len = $len - substr_count($line, $emojiTag[0]) * (mb_strwidth($emojiTag[1]) + 1);
 			}
 			if ($len_max < $len) {
 				$len_max = $len;
@@ -524,7 +524,7 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 		foreach ($lines as $line) {
 			$len = mb_strwidth($line);
 			foreach ($emojiTags as $emojiTag) {
-				$len = $len - substr_count($line, $emojiTag) * (mb_strwidth($emojiTag[1]) + 1);
+				$len = $len - substr_count($line, $emojiTag[0]) * (mb_strwidth($emojiTag[1]) + 1);
 			}
 			if ($len_max < $len) {
 				$len_max = $len;
