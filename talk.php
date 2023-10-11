@@ -450,7 +450,8 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 			'78b9b9379f4aa7cd7fe18983a0b558b71927d78039abedc79d240abbdfd6ccd7',//note10zumjdulf2nu6llp3xp6pd2ckuvj04uq8x47m3uays9thh7kents4ppyle
 			'f1b2db1f3bd810a8b97966c469959e7eefce2b509fc5a35756eab03825c75faf',//note17xedk8emmqg23wtevmzxn9v70mhuu26snlz6x46ka2crsfw8t7hswcrh0r
 			'a85a4d948181aa64ceed7327e0f7841088f4fe4d340f66ca5d981bc50aa108cf',//note14pdym9ypsx4xfnhdwvn7pauyzzy0fljdxs8kdjjanqdu2z4ppr8s9fcaqp
-			'74b1821ead1b5b895a196229e550ae8266594f8906b6d34d174336a19236e049'//note1wjccy84drddcjksevg57259wsfn9jnufq6mdxnghgvm2ry3kupystu7s5l
+			'74b1821ead1b5b895a196229e550ae8266594f8906b6d34d174336a19236e049',//note1wjccy84drddcjksevg57259wsfn9jnufq6mdxnghgvm2ry3kupystu7s5l
+			'6b686e6d6a842a7064c6ab1374e44f7ccddc275cb83216252264f31921004ddf'//note1dd5xumt2ss48qexx4vfhfez00nxacf6uhqepvffzvne3jggqfh0snse48y
 		);
 		$note_hex = $notes[rand(0, count($notes) - 1)];
 		$res = "#うにゅう画像\nnostr:". noteEncode($note_hex);
