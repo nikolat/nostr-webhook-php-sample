@@ -612,30 +612,39 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 
 function fav($data) {
 	$res = null;
-	$tags = null;
+	$tags = [];
+	foreach ($data['tags'] as $tag) {
+		if ($tag[0] == 'p') {
+			if ($tag[1] != $data['pubkey']) {
+				$tags[] = $tag;
+			}
+		}
+		else if ($tag[0] == 'e') {
+			$tags[] = $tag;
+		}
+	}
+	$tags[] = ['e', $data['id'], '', ''];
+	$tags[] = ['p', $data['pubkey'], ''];
+	$tags[] = ['k', (string)$data['kind']];
 	if (preg_match('/ぎゅうにゅう/u', $data['content'])) {
 		$res = '🥛';
-		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
 	}
 	else if (preg_match('/うにゅう/u', $data['content'])) {
 		if (preg_match('/うにゅうハウス/u', $data['content'])) {
 			return [null, null];
 		}
 		$res = ':unyu:';
-		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', ''], ['emoji','unyu', 'https://nikolat.github.io/avatar/disc2.png']];
+		$tags[] = ['emoji','unyu', 'https://nikolat.github.io/avatar/disc2.png'];
 	}
 	else if (preg_match('/^うちゅう$/u', $data['content'])) {
 		$mesary = array('🪐', '🛸', '🚀');
 		$res = $mesary[rand(0, count($mesary) - 1)];
-		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
 	}
 	else if (preg_match('/^う[^に]ゅう$/u', $data['content'])) {
 		$res = '❓';
-		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
 	}
 	else {
 		$res = '⭐';
-		$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', '']];
 	}
 	return [$res, $tags];
 }
