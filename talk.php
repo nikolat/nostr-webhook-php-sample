@@ -10,7 +10,17 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		}
 		//replyに対しては基本replyで返すが、稀にmentionで返す BOT同士のreplyの無限応酬を防ぐ目的
 		if (rand(0, 9) > 0) {
-			$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
+			$tags = [];
+			$tags[] = $rootTag;
+			$tags[] = ['e', $data['id'], '', 'reply'];
+			foreach ($data['tags'] as $tag) {
+				if ($tag[0] == 'p') {
+					if ($tag[1] != $data['pubkey']) {
+						$tags[] = $tag;
+					}
+				}
+			}
+			$tags[] = ['p', $data['pubkey'], ''];
 		}
 		else {
 			$tags = [$rootTag, ['e', $data['id'], '', 'mention']];
@@ -19,12 +29,22 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 	else {
 		//replyに対しては基本replyで返すが、稀にmentionで返す BOT同士のreplyの無限応酬を防ぐ目的
 		if (rand(0, 9) > 0) {
+			$tags = [];
 			if ($rootTag) {
-				$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
+				$tags[] = $rootTag;
+				$tags[] = ['e', $data['id'], '', 'reply'];
 			}
 			else {
-				$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
+				$tags[] = ['e', $data['id'], '', 'root'];
 			}
+			foreach ($data['tags'] as $tag) {
+				if ($tag[0] == 'p') {
+					if ($tag[1] != $data['pubkey']) {
+						$tags[] = $tag;
+					}
+				}
+			}
+			$tags[] = ['p', $data['pubkey'], ''];
 		}
 		else {
 			$tags = [['e', $data['id'], '', 'mention']];
@@ -421,12 +441,29 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 	$content = $data['content'];
 	$res = null;
+	$tags = null;
+	$reply_tag_set = [];
+	if ($rootTag) {
+		$reply_tag_set[] = $rootTag;
+		$reply_tag_set[] = ['e', $data['id'], '', 'reply'];
+	}
+	else {
+		$reply_tag_set[] = ['e', $data['id'], '', 'root'];
+	}
+	foreach ($data['tags'] as $tag) {
+		if ($tag[0] == 'p') {
+			if ($tag[1] != $data['pubkey']) {
+				$reply_tag_set[] = $tag;
+			}
+		}
+	}
+	$reply_tag_set[] = ['p', $data['pubkey'], ''];
 	if ($kindfrom == 42) {
 		//Nostr伺か部
 		if ($rootTag[1] != 'be8e52c0c70ec5390779202b27d9d6fc7286d0e9a2bc91c001d6838d40bafa4a') {
 			return [null, null];
 		}
-		$tags = [['e', $data['id'], '', 'mention'], $rootTag];
+		$tags = [$rootTag, ['e', $data['id'], '', 'mention']];
 	}
 	else {
 		$tags = [['e', $data['id'], '', 'mention']];
@@ -455,13 +492,10 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 		);
 		$note_hex = $notes[rand(0, count($notes) - 1)];
 		$res = "#うにゅう画像\nnostr:". noteEncode($note_hex);
-		if ($rootTag) {
-			$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply'], ['e', $note_hex, '', 'mention'], ['t', 'うにゅう画像']];
+		$tags = $reply_tag_set;
+		$tags[] = ['e', $note_hex, '', 'mention'];
+		$tags[] = ['t', 'うにゅう画像'];
 		}
-		else {
-			$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root'], ['e', $note_hex, '', 'mention'], ['t', 'うにゅう画像']];
-		}
-	}
 	else if (preg_match('/^ちくわ大明神$/u', $content)) {
 		$res = '誰や今の';
 	}
@@ -482,34 +516,19 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 	else if (preg_match('/^ぐっにゅう?ーん.?$/u', $content, $match)) {
 		$res = '誰やねん';
 		if (preg_match('/[！!]$/u', $content, $match)) {
-			if ($rootTag) {
-				$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
-			}
-			else {
-				$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
-			}
+			$tags = $reply_tag_set;
 		}
 	}
 	else if (preg_match('/^ぎゅ(うっ|っう)にゅう?ーん.?$/u', $content, $match)) {
 		$res = '🥛なんやねん🥛';
 		if (preg_match('/[！!]$/u', $content, $match)) {
-			if ($rootTag) {
-				$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
-			}
-			else {
-				$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
-			}
+			$tags = $reply_tag_set;
 		}
 	}
 	else if (preg_match('/^うっにゅう?ーん.?$/u', $content, $match)) {
 		$res = 'なんやねん';
 		if (preg_match('/[！!]$/u', $content, $match)) {
-			if ($rootTag) {
-				$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
-			}
-			else {
-				$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
-			}
+			$tags = $reply_tag_set;
 		}
 	}
 	else if (preg_match('/(フォロー|ふぉろー)[飛と]んだ.?$/u', $content, $match)) {
@@ -593,12 +612,7 @@ function airrep($data, $emojiTags, $rootTag, $kindfrom) {
 			else {
 				$res .= floor((rand(150, 300) + rand(150, 300)) / 2);
 			}
-			if ($rootTag) {
-				$tags = [['p', $data['pubkey'], ''], $rootTag, ['e', $data['id'], '', 'reply']];
-			}
-			else {
-				$tags = [['p', $data['pubkey'], ''], ['e', $data['id'], '', 'root']];
-			}
+			$tags = $reply_tag_set;
 		}
 		else {
 			return [null, null];
