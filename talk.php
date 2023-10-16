@@ -329,7 +329,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		$res = 'nostr:npub1n2uhxrph9fgyp3u2xxqxhuz0vykt8dw8ehvw5uaesl0z4mvatpas0ngm26';
 		$res .= "\nhttps://nos.today/";
 		$res .= "\nhttps://search.yabu.me/";
-		$res .= "\nhttps://nosquawks.vercel.app/";
+		$res .= "\nhttps://nosey.vercel.app/";
 		$res .= "\nhttps://showhyuga.pages.dev/utility/nos_search";
 		$tags = array_merge($tags, [['r', 'https://nos.today/'], ['r', 'https://search.yabu.me/'], ['r', 'https://nosquawks.vercel.app/'], ['r', 'https://showhyuga.pages.dev/utility/nos_search']]);
 	}
