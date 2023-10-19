@@ -331,7 +331,7 @@ function talk($data, $emojiTags, $rootTag, $isMentionOther, $mentionOtherTag, $k
 		$res .= "\nhttps://search.yabu.me/";
 		$res .= "\nhttps://nosey.vercel.app/";
 		$res .= "\nhttps://showhyuga.pages.dev/utility/nos_search";
-		$tags = array_merge($tags, [['r', 'https://nos.today/'], ['r', 'https://search.yabu.me/'], ['r', 'https://nosquawks.vercel.app/'], ['r', 'https://showhyuga.pages.dev/utility/nos_search']]);
+		$tags = array_merge($tags, [['r', 'https://nos.today/'], ['r', 'https://search.yabu.me/'], ['r', 'https://nosey.vercel.app/'], ['r', 'https://showhyuga.pages.dev/utility/nos_search']]);
 	}
 	else if (preg_match('/(パブ|ぱぶ)(リック)?(チャ|ちゃ|茶)(ット)?(呼んで|どこ).?$/u', $content)) {
 		$res = 'うにゅうハウス';
